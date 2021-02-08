@@ -1,13 +1,10 @@
 package com.ironhack.midtermproyect.model.accounts;
 
 import com.ironhack.midtermproyect.Money;
-import com.ironhack.midtermproyect.model.AccountHolder;
-import com.ironhack.midtermproyect.model.SecondaryOwner;
+import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
