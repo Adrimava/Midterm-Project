@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "accountId")
 public class StudentChecking extends Account {
 	private String secretKey;
 	private Date creationDate;

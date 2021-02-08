@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "accountId")
 public class Savings extends Account{
 	private String secretKey;
 	private Money minimumBalance;

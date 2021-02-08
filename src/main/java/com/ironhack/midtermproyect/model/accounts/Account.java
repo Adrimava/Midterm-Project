@@ -10,7 +10,7 @@ import javax.persistence.*;
 public abstract class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Integer id;
+	protected Integer accountId;
 	protected Money balance;
 	protected AccountHolder primaryOwner;
 	protected AccountHolder secondaryOwner;
@@ -42,11 +42,11 @@ public abstract class Account {
 	 */
 
 	public Integer getId() {
-		return id;
+		return accountId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
 	public Money getBalance() {

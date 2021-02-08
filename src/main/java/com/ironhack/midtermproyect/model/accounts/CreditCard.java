@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "accountId")
 public class CreditCard extends Account {
 	private Money creditLimit;
 	private Money interestRate;

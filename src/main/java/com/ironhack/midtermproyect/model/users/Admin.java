@@ -3,7 +3,7 @@ package com.ironhack.midtermproyect.model.users;
 import javax.persistence.*;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "userId")
 public class Admin extends User {
 
 	/*

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "userId")
 public class AccountHolder extends User {
 	private LocalDate birthDate;
 	@Embedded

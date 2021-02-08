@@ -7,7 +7,7 @@ import javax.persistence.*;
 public abstract class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Integer id;
+	protected Integer userId;
 	protected String name;
 
 	/*
@@ -26,11 +26,11 @@ public abstract class User {
 	 */
 
 	public Integer getId() {
-		return id;
+		return userId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {
