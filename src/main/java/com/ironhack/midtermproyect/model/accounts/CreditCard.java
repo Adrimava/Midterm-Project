@@ -19,16 +19,9 @@ public class CreditCard extends Account {
 	public CreditCard() {
 	}
 
-	public CreditCard(Money creditLimit, Money interestRate) {
-		this.creditLimit = creditLimit;
-		this.interestRate = interestRate;
-	}
-
 	public CreditCard(Money balance, AccountHolder primaryOwner, Money penaltyFee,
 					  Money creditLimit, Money interestRate) {
-		super(balance, primaryOwner, penaltyFee);
-		this.creditLimit = creditLimit;
-		this.interestRate = interestRate;
+		this(balance, primaryOwner, null, penaltyFee, creditLimit, interestRate);
 	}
 
 	public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,

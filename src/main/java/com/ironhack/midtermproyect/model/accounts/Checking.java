@@ -23,24 +23,11 @@ public class Checking extends Account{
 	public Checking() {
 	}
 
-	public Checking(String secretKey, Money minimumBalance, Money monthlyMaintenanceFee,
-					Date creationDate, Status status) {
-		this.secretKey = secretKey;
-		this.minimumBalance = minimumBalance;
-		this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-		this.creationDate = creationDate;
-		this.status = status;
-	}
-
 	public Checking(Money balance, AccountHolder primaryOwner, Money penaltyFee, String secretKey,
 					Money minimumBalance, Money monthlyMaintenanceFee, Date creationDate,
 					Status status) {
-		super(balance, primaryOwner, penaltyFee);
-		this.secretKey = secretKey;
-		this.minimumBalance = minimumBalance;
-		this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-		this.creationDate = creationDate;
-		this.status = status;
+		this(balance, primaryOwner, null, penaltyFee, secretKey, minimumBalance,
+				monthlyMaintenanceFee, creationDate, status);
 	}
 
 	public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,

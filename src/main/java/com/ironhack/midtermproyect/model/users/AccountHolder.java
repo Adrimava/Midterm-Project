@@ -27,9 +27,7 @@ public class AccountHolder extends User {
 	}
 
 	public AccountHolder(String name, LocalDate birthDate, Address address) {
-		super(name);
-		setBirthDate(birthDate);
-		setAddress(address);
+		this(name, birthDate, address, null);
 	}
 
 	public AccountHolder(String name, LocalDate birthDate, Address address, String email) {

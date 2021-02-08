@@ -13,10 +13,10 @@ public abstract class Account {
 	protected Integer accountId;
 	protected Money balance;
 	@ManyToOne
-	@JoinColumn(name = "account_id")
+	@JoinColumn(name = "primary_owner_id")
 	protected AccountHolder primaryOwner;
 	@ManyToOne
-	@JoinColumn(name = "secondary_account_id")
+	@JoinColumn(name = "secondary_owner_id")
 	protected AccountHolder secondaryOwner;
 	protected Money penaltyFee;
 
@@ -28,9 +28,7 @@ public abstract class Account {
 	}
 
 	public Account(Money balance, AccountHolder primaryOwner, Money penaltyFee) {
-		this.balance = balance;
-		this.primaryOwner = primaryOwner;
-		this.penaltyFee = penaltyFee;
+		this(balance, primaryOwner, null, penaltyFee);
 	}
 
 	public Account(Money balance, AccountHolder primaryOwner,
