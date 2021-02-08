@@ -1,9 +1,9 @@
 package com.ironhack.midtermproyect.model.accounts;
 
-import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -11,14 +11,14 @@ public abstract class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer accountId;
-	protected Money balance;
+	protected BigDecimal balance;
 	@ManyToOne
 	@JoinColumn(name = "primary_owner_id")
 	protected AccountHolder primaryOwner;
 	@ManyToOne
 	@JoinColumn(name = "secondary_owner_id")
 	protected AccountHolder secondaryOwner;
-	protected Money penaltyFee;
+	protected BigDecimal penaltyFee;
 
 	/*
 	**	CONSTRUCTORS
@@ -27,12 +27,12 @@ public abstract class Account {
 	public Account() {
 	}
 
-	public Account(Money balance, AccountHolder primaryOwner, Money penaltyFee) {
+	public Account(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee) {
 		this(balance, primaryOwner, null, penaltyFee);
 	}
 
-	public Account(Money balance, AccountHolder primaryOwner,
-				   AccountHolder secondaryOwner, Money penaltyFee) {
+	public Account(BigDecimal balance, AccountHolder primaryOwner,
+				   AccountHolder secondaryOwner, BigDecimal penaltyFee) {
 		this.balance = balance;
 		this.primaryOwner = primaryOwner;
 		this.secondaryOwner = secondaryOwner;
@@ -51,11 +51,11 @@ public abstract class Account {
 		this.accountId = accountId;
 	}
 
-	public Money getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Money balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 
@@ -75,11 +75,11 @@ public abstract class Account {
 		this.secondaryOwner = secondaryOwner;
 	}
 
-	public Money getPenaltyFee() {
+	public BigDecimal getPenaltyFee() {
 		return penaltyFee;
 	}
 
-	public void setPenaltyFee(Money penaltyFee) {
+	public void setPenaltyFee(BigDecimal penaltyFee) {
 		this.penaltyFee = penaltyFee;
 	}
 }

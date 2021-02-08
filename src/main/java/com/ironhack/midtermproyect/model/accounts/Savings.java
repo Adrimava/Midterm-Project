@@ -1,6 +1,5 @@
 package com.ironhack.midtermproyect.model.accounts;
 
-import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.enums.Status;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
@@ -13,7 +12,7 @@ import java.util.Date;
 @PrimaryKeyJoinColumn(name = "accountId")
 public class Savings extends Account{
 	private String secretKey;
-	private Money minimumBalance;
+	private BigDecimal minimumBalance;
 	private Date creationDate;
 	private Status status;
 	private BigDecimal interestRate;
@@ -25,15 +24,15 @@ public class Savings extends Account{
 	public Savings() {
 	}
 
-	public Savings(Money balance, AccountHolder primaryOwner, Money penaltyFee,
-				   String secretKey, Money minimumBalance, Date creationDate,
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
+				   String secretKey, BigDecimal minimumBalance, Date creationDate,
 				   Status status, BigDecimal interestRate) {
 		this(balance, primaryOwner, null, penaltyFee, secretKey,
 				minimumBalance, creationDate, status, interestRate);
 	}
 
-	public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-				   Money penaltyFee, String secretKey, Money minimumBalance,
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
+				   BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance,
 				   Date creationDate, Status status, BigDecimal interestRate) {
 		super(balance, primaryOwner, secondaryOwner, penaltyFee);
 		this.secretKey = secretKey;
@@ -55,11 +54,11 @@ public class Savings extends Account{
 		this.secretKey = secretKey;
 	}
 
-	public Money getMinimumBalance() {
+	public BigDecimal getMinimumBalance() {
 		return minimumBalance;
 	}
 
-	public void setMinimumBalance(Money minimumBalance) {
+	public void setMinimumBalance(BigDecimal minimumBalance) {
 		this.minimumBalance = minimumBalance;
 	}
 
