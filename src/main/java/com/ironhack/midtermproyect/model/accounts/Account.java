@@ -12,7 +12,11 @@ public abstract class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer accountId;
 	protected Money balance;
+	@ManyToOne
+	@JoinColumn(name = "account_id")
 	protected AccountHolder primaryOwner;
+	@ManyToOne
+	@JoinColumn(name = "secondary_account_id")
 	protected AccountHolder secondaryOwner;
 	protected Money penaltyFee;
 

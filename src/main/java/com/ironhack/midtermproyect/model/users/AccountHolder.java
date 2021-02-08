@@ -1,10 +1,11 @@
 package com.ironhack.midtermproyect.model.users;
 
+import com.ironhack.midtermproyect.model.accounts.Account;
 import com.ironhack.midtermproyect.model.other.Address;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "userId")
@@ -12,7 +13,11 @@ public class AccountHolder extends User {
 	private LocalDate birthDate;
 	@Embedded
 	private Address address;
-	private Optional<String> email;
+	private String email;
+	@OneToMany(mappedBy = "primaryOwner")
+	private List<Account> primaryAccounts;
+	@OneToMany(mappedBy = "secondaryOwner")
+	private List<Account> secondaryAccounts;
 
 	/*
 	**	CONSTRUCTORS
@@ -21,17 +26,17 @@ public class AccountHolder extends User {
 	public AccountHolder() {
 	}
 
-	public AccountHolder(LocalDate birthDate, Address address, Optional<String> email) {
-		this.birthDate = birthDate;
-		this.address = address;
-		this.email = email;
+	public AccountHolder(String name, LocalDate birthDate, Address address) {
+		super(name);
+		setBirthDate(birthDate);
+		setAddress(address);
 	}
 
-	public AccountHolder(String name, LocalDate birthDate, Address address, Optional<String> email) {
+	public AccountHolder(String name, LocalDate birthDate, Address address, String email) {
 		super(name);
-		this.birthDate = birthDate;
-		this.address = address;
-		this.email = email;
+		setBirthDate(birthDate);
+		setAddress(address);
+		setEmail(email);
 	}
 
 	/*
@@ -54,11 +59,27 @@ public class AccountHolder extends User {
 		this.address = address;
 	}
 
-	public Optional<String> getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(Optional<String> email) {
+	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Account> getPrimaryAccounts() {
+		return primaryAccounts;
+	}
+
+	public void setPrimaryAccounts(List<Account> primaryAccounts) {
+		this.primaryAccounts = primaryAccounts;
+	}
+
+	public List<Account> getSecondaryAccounts() {
+		return secondaryAccounts;
+	}
+
+	public void setSecondaryAccounts(List<Account> secondaryAccounts) {
+		this.secondaryAccounts = secondaryAccounts;
 	}
 }
