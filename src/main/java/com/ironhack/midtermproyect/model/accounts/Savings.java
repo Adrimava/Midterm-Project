@@ -24,22 +24,66 @@ public class Savings extends Account{
 	public Savings() {
 	}
 
+	/*
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
+				   BigDecimal penaltyFee, String secretKey,
+				   Date creationDate, Status status) {
+		this(balance, primaryOwner, secondaryOwner, penaltyFee, secretKey,
+				new BigDecimal("1000"), creationDate, status, new BigDecimal("0.0025"));
+	}
+
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
+				   String secretKey, Date creationDate,
+				   Status status) {
+		this(balance, primaryOwner, null, penaltyFee, secretKey,
+				new BigDecimal("1000"), creationDate, status, new BigDecimal("0.0025"));
+	}
+
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
+				   String secretKey, Date creationDate,
+				   Status status, BigDecimal interestRate) {
+		this(balance, primaryOwner, null, penaltyFee, secretKey,
+				new BigDecimal("1000"), creationDate, status, interestRate);
+	}
+
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
+				   BigDecimal penaltyFee, String secretKey,
+				   Date creationDate, Status status, BigDecimal interestRate) {
+		this(balance, primaryOwner, secondaryOwner, penaltyFee, secretKey,
+				new BigDecimal("1000"), creationDate, status, interestRate);
+	}
+
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
+				   String secretKey, BigDecimal minimumBalance, Date creationDate,
+				   Status status) {
+		this(balance, primaryOwner, null, penaltyFee, secretKey,
+				minimumBalance, creationDate, status, new BigDecimal("0.0025"));
+	}
+
+	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
+				   BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance,
+				   Date creationDate, Status status) {
+		this(balance, primaryOwner, secondaryOwner, penaltyFee, secretKey,
+				minimumBalance, creationDate, status, new BigDecimal("0.0025"));
+	}
+
 	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
 				   String secretKey, BigDecimal minimumBalance, Date creationDate,
 				   Status status, BigDecimal interestRate) {
 		this(balance, primaryOwner, null, penaltyFee, secretKey,
 				minimumBalance, creationDate, status, interestRate);
 	}
+	*/
 
 	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
 				   BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance,
 				   Date creationDate, Status status, BigDecimal interestRate) {
 		super(balance, primaryOwner, secondaryOwner, penaltyFee);
-		this.secretKey = secretKey;
-		this.minimumBalance = minimumBalance;
-		this.creationDate = creationDate;
-		this.status = status;
-		this.interestRate = interestRate;
+		setSecretKey(secretKey);
+		setMinimumBalance(minimumBalance);
+		setCreationDate(creationDate);
+		setStatus(status);
+		setInterestRate(interestRate);
 	}
 
 	/*
