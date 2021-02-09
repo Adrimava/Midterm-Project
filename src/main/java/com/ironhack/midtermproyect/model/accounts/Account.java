@@ -4,6 +4,7 @@ import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -37,16 +38,11 @@ public abstract class Account {
 	public Account() {
 	}
 
-	public Account(Money balance, AccountHolder primaryOwner, Money penaltyFee) {
-		this(balance, primaryOwner, null, penaltyFee);
-	}
-
-	public Account(Money balance, AccountHolder primaryOwner,
-				   AccountHolder secondaryOwner, Money penaltyFee) {
+	public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
 		setBalance(balance);
 		setPrimaryOwner(primaryOwner);
 		setSecondaryOwner(secondaryOwner);
-		setPenaltyFee(penaltyFee);
+		setPenaltyFee(new Money(new BigDecimal("40")));
 	}
 
 	/*

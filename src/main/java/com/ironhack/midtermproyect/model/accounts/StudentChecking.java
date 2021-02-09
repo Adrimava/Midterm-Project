@@ -21,9 +21,9 @@ public class StudentChecking extends Account {
 	public StudentChecking() {
 	}
 
-	public StudentChecking(Money balance, AccountHolder primaryOwner, Money penaltyFee,
+	public StudentChecking(Money balance, AccountHolder primaryOwner,
 						   String secretKey, Status status) {
-		super(balance, primaryOwner, null, penaltyFee);
+		super(balance, primaryOwner, null);
 		setSecretKey(secretKey);
 		setCreationDate(new Date());
 		setStatus(status);

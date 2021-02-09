@@ -24,8 +24,8 @@ public class CreditCard extends Account {
 	public CreditCard() {
 	}
 
-	public CreditCard(Money balance, AccountHolder primaryOwner, Money penaltyFee) {
-		super(balance, primaryOwner, null, penaltyFee);
+	public CreditCard(Money balance, AccountHolder primaryOwner) {
+		super(balance, primaryOwner, null);
 		setCreditLimit(new Money(new BigDecimal("100")));
 		setInterestRate(new BigDecimal("0.2"));
 	}
