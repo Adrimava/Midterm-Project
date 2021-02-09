@@ -22,16 +22,11 @@ public class StudentChecking extends Account {
 	}
 
 	public StudentChecking(Money balance, AccountHolder primaryOwner, Money penaltyFee,
-						   String secretKey, Date creationDate, Status status) {
-		this(balance, primaryOwner, null, penaltyFee, secretKey, creationDate, status);
-	}
-
-	public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-						   Money penaltyFee, String secretKey, Date creationDate, Status status) {
-		super(balance, primaryOwner, secondaryOwner, penaltyFee);
-		this.secretKey = secretKey;
-		this.creationDate = creationDate;
-		this.status = status;
+						   String secretKey, Status status) {
+		super(balance, primaryOwner, null, penaltyFee);
+		setSecretKey(secretKey);
+		setCreationDate(new Date());
+		setStatus(status);
 	}
 
 	/*

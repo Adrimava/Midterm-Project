@@ -5,6 +5,7 @@ import com.ironhack.midtermproyect.enums.Status;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -33,22 +34,14 @@ public class Checking extends Account{
 	public Checking() {
 	}
 
-	public Checking(Money balance, AccountHolder primaryOwner, Money penaltyFee, String secretKey,
-					Money minimumBalance, Money monthlyMaintenanceFee, Date creationDate,
-					Status status) {
-		this(balance, primaryOwner, null, penaltyFee, secretKey, minimumBalance,
-				monthlyMaintenanceFee, creationDate, status);
-	}
-
-	public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-					Money penaltyFee, String secretKey, Money minimumBalance,
-					Money monthlyMaintenanceFee, Date creationDate, Status status) {
-		super(balance, primaryOwner, secondaryOwner, penaltyFee);
-		this.secretKey = secretKey;
-		this.minimumBalance = minimumBalance;
-		this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-		this.creationDate = creationDate;
-		this.status = status;
+	public Checking(Money balance, AccountHolder primaryOwner, Money penaltyFee,
+					String secretKey, Status status) {
+		super(balance, primaryOwner, null, penaltyFee);
+		setSecretKey(secretKey);
+		setMinimumBalance(new Money(new BigDecimal("250")));
+		setMonthlyMaintenanceFee(new Money(new BigDecimal("12")));
+		setCreationDate(new Date());
+		setStatus(status);
 	}
 
 	/*
@@ -83,7 +76,7 @@ public class Checking extends Account{
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	private void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 

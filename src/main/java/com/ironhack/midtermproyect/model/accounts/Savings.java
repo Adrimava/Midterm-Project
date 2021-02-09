@@ -30,11 +30,11 @@ public class Savings extends Account{
 	}
 
 	public Savings(Money balance, AccountHolder primaryOwner, Money penaltyFee,
-				   String secretKey, Date creationDate, Status status) {
+				   String secretKey, Status status) {
 		super(balance, primaryOwner, null, penaltyFee);
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("1000")));
-		setCreationDate(creationDate);
+		setCreationDate(new Date());
 		setStatus(status);
 		setInterestRate(new BigDecimal("0.0025"));
 	}
@@ -70,7 +70,7 @@ public class Savings extends Account{
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	private void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
