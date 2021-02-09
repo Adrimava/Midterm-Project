@@ -29,12 +29,11 @@ public class Savings extends Account{
 	public Savings() {
 	}
 
-	public Savings(Money balance, AccountHolder primaryOwner,
-				   Money penaltyFee, String secretKey, Money minimumBalance,
-				   Date creationDate, Status status) {
+	public Savings(Money balance, AccountHolder primaryOwner, Money penaltyFee,
+				   String secretKey, Date creationDate, Status status) {
 		super(balance, primaryOwner, null, penaltyFee);
 		setSecretKey(secretKey);
-		setMinimumBalance(minimumBalance);
+		setMinimumBalance(new Money(new BigDecimal("1000")));
 		setCreationDate(creationDate);
 		setStatus(status);
 		setInterestRate(new BigDecimal("0.0025"));
@@ -57,7 +56,14 @@ public class Savings extends Account{
 	}
 
 	public void setMinimumBalance(Money minimumBalance) {
-		this.minimumBalance = minimumBalance;
+		BigDecimal max = new BigDecimal("1000");
+		BigDecimal min = new BigDecimal("100");
+		BigDecimal amount = minimumBalance.getAmount();
+
+		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
+			throw new IllegalArgumentException("Minimum balance must be a value between 100 and 1000");
+		else
+			this.minimumBalance = minimumBalance;
 	}
 
 	public Date getCreationDate() {
@@ -81,6 +87,11 @@ public class Savings extends Account{
 	}
 
 	public void setInterestRate(BigDecimal interestRate) {
-		this.interestRate = interestRate;
+		BigDecimal max = new BigDecimal("0.5");
+
+		if (interestRate.compareTo(max) > 0)
+			throw new IllegalArgumentException("Interest rate cannot be greater than 0.5.");
+		else
+			this.interestRate = interestRate;
 	}
 }
