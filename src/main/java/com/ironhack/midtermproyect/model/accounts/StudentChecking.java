@@ -1,10 +1,10 @@
 package com.ironhack.midtermproyect.model.accounts;
 
+import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.enums.Status;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -21,13 +21,13 @@ public class StudentChecking extends Account {
 	public StudentChecking() {
 	}
 
-	public StudentChecking(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
+	public StudentChecking(Money balance, AccountHolder primaryOwner, Money penaltyFee,
 						   String secretKey, Date creationDate, Status status) {
 		this(balance, primaryOwner, null, penaltyFee, secretKey, creationDate, status);
 	}
 
-	public StudentChecking(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-						   BigDecimal penaltyFee, String secretKey, Date creationDate, Status status) {
+	public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
+						   Money penaltyFee, String secretKey, Date creationDate, Status status) {
 		super(balance, primaryOwner, secondaryOwner, penaltyFee);
 		this.secretKey = secretKey;
 		this.creationDate = creationDate;

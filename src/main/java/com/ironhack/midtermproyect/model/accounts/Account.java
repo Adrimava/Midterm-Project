@@ -1,9 +1,9 @@
 package com.ironhack.midtermproyect.model.accounts;
 
+import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -11,14 +11,24 @@ public abstract class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer accountId;
-	protected BigDecimal balance;
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "amount", column = @Column(name = "balance")),
+			@AttributeOverride(name = "currency", column = @Column(name = "balance_currency"))
+	})
+	protected Money balance;
 	@ManyToOne
 	@JoinColumn(name = "primary_owner_id")
 	protected AccountHolder primaryOwner;
 	@ManyToOne
 	@JoinColumn(name = "secondary_owner_id")
 	protected AccountHolder secondaryOwner;
-	protected BigDecimal penaltyFee;
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "amount", column = @Column(name = "penalty_fee")),
+			@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))
+	})
+	protected Money penaltyFee;
 
 	/*
 	**	CONSTRUCTORS
@@ -27,12 +37,12 @@ public abstract class Account {
 	public Account() {
 	}
 
-	public Account(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee) {
+	public Account(Money balance, AccountHolder primaryOwner, Money penaltyFee) {
 		this(balance, primaryOwner, null, penaltyFee);
 	}
 
-	public Account(BigDecimal balance, AccountHolder primaryOwner,
-				   AccountHolder secondaryOwner, BigDecimal penaltyFee) {
+	public Account(Money balance, AccountHolder primaryOwner,
+				   AccountHolder secondaryOwner, Money penaltyFee) {
 		this.balance = balance;
 		this.primaryOwner = primaryOwner;
 		this.secondaryOwner = secondaryOwner;
@@ -51,11 +61,11 @@ public abstract class Account {
 		this.accountId = accountId;
 	}
 
-	public BigDecimal getBalance() {
+	public Money getBalance() {
 		return balance;
 	}
 
-	public void setBalance(BigDecimal balance) {
+	public void setBalance(Money balance) {
 		this.balance = balance;
 	}
 
@@ -75,11 +85,11 @@ public abstract class Account {
 		this.secondaryOwner = secondaryOwner;
 	}
 
-	public BigDecimal getPenaltyFee() {
+	public Money getPenaltyFee() {
 		return penaltyFee;
 	}
 
-	public void setPenaltyFee(BigDecimal penaltyFee) {
+	public void setPenaltyFee(Money penaltyFee) {
 		this.penaltyFee = penaltyFee;
 	}
 }

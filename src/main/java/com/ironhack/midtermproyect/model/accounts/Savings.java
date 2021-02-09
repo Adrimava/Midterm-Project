@@ -1,10 +1,10 @@
 package com.ironhack.midtermproyect.model.accounts;
 
+import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.enums.Status;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,7 +12,12 @@ import java.util.Date;
 @PrimaryKeyJoinColumn(name = "accountId")
 public class Savings extends Account{
 	private String secretKey;
-	private BigDecimal minimumBalance;
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "amount", column = @Column(name = "minimum_balance")),
+			@AttributeOverride(name = "currency", column = @Column(name = "minimum_balance_currency"))
+	})
+	private Money minimumBalance;
 	private Date creationDate;
 	private Status status;
 	private BigDecimal interestRate;
@@ -24,66 +29,15 @@ public class Savings extends Account{
 	public Savings() {
 	}
 
-	/*
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-				   BigDecimal penaltyFee, String secretKey,
+	public Savings(Money balance, AccountHolder primaryOwner,
+				   Money penaltyFee, String secretKey, Money minimumBalance,
 				   Date creationDate, Status status) {
-		this(balance, primaryOwner, secondaryOwner, penaltyFee, secretKey,
-				new BigDecimal("1000"), creationDate, status, new BigDecimal("0.0025"));
-	}
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
-				   String secretKey, Date creationDate,
-				   Status status) {
-		this(balance, primaryOwner, null, penaltyFee, secretKey,
-				new BigDecimal("1000"), creationDate, status, new BigDecimal("0.0025"));
-	}
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
-				   String secretKey, Date creationDate,
-				   Status status, BigDecimal interestRate) {
-		this(balance, primaryOwner, null, penaltyFee, secretKey,
-				new BigDecimal("1000"), creationDate, status, interestRate);
-	}
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-				   BigDecimal penaltyFee, String secretKey,
-				   Date creationDate, Status status, BigDecimal interestRate) {
-		this(balance, primaryOwner, secondaryOwner, penaltyFee, secretKey,
-				new BigDecimal("1000"), creationDate, status, interestRate);
-	}
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
-				   String secretKey, BigDecimal minimumBalance, Date creationDate,
-				   Status status) {
-		this(balance, primaryOwner, null, penaltyFee, secretKey,
-				minimumBalance, creationDate, status, new BigDecimal("0.0025"));
-	}
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-				   BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance,
-				   Date creationDate, Status status) {
-		this(balance, primaryOwner, secondaryOwner, penaltyFee, secretKey,
-				minimumBalance, creationDate, status, new BigDecimal("0.0025"));
-	}
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee,
-				   String secretKey, BigDecimal minimumBalance, Date creationDate,
-				   Status status, BigDecimal interestRate) {
-		this(balance, primaryOwner, null, penaltyFee, secretKey,
-				minimumBalance, creationDate, status, interestRate);
-	}
-	*/
-
-	public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-				   BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance,
-				   Date creationDate, Status status, BigDecimal interestRate) {
-		super(balance, primaryOwner, secondaryOwner, penaltyFee);
+		super(balance, primaryOwner, null, penaltyFee);
 		setSecretKey(secretKey);
 		setMinimumBalance(minimumBalance);
 		setCreationDate(creationDate);
 		setStatus(status);
-		setInterestRate(interestRate);
+		setInterestRate(new BigDecimal("0.0025"));
 	}
 
 	/*
@@ -98,11 +52,11 @@ public class Savings extends Account{
 		this.secretKey = secretKey;
 	}
 
-	public BigDecimal getMinimumBalance() {
+	public Money getMinimumBalance() {
 		return minimumBalance;
 	}
 
-	public void setMinimumBalance(BigDecimal minimumBalance) {
+	public void setMinimumBalance(Money minimumBalance) {
 		this.minimumBalance = minimumBalance;
 	}
 

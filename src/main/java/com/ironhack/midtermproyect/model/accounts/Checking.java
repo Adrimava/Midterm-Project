@@ -1,18 +1,28 @@
 package com.ironhack.midtermproyect.model.accounts;
 
+import com.ironhack.midtermproyect.Money;
 import com.ironhack.midtermproyect.enums.Status;
 import com.ironhack.midtermproyect.model.users.AccountHolder;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "accountId")
 public class Checking extends Account{
 	private String secretKey;
-	private BigDecimal minimumBalance;
-	private BigDecimal monthlyMaintenanceFee;
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "amount", column = @Column(name = "minimum_balance")),
+			@AttributeOverride(name = "currency", column = @Column(name = "minimum_balance_currency"))
+	})
+	private Money minimumBalance;
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "amount", column = @Column(name = "monthly_maintenance_fee")),
+			@AttributeOverride(name = "currency", column = @Column(name = "monthly_maintenance_fee_currency"))
+	})
+	private Money monthlyMaintenanceFee;
 	private Date creationDate;
 	private Status status;
 
@@ -23,16 +33,16 @@ public class Checking extends Account{
 	public Checking() {
 	}
 
-	public Checking(BigDecimal balance, AccountHolder primaryOwner, BigDecimal penaltyFee, String secretKey,
-					BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, Date creationDate,
+	public Checking(Money balance, AccountHolder primaryOwner, Money penaltyFee, String secretKey,
+					Money minimumBalance, Money monthlyMaintenanceFee, Date creationDate,
 					Status status) {
 		this(balance, primaryOwner, null, penaltyFee, secretKey, minimumBalance,
 				monthlyMaintenanceFee, creationDate, status);
 	}
 
-	public Checking(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-					BigDecimal penaltyFee, String secretKey, BigDecimal minimumBalance,
-					BigDecimal monthlyMaintenanceFee, Date creationDate, Status status) {
+	public Checking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
+					Money penaltyFee, String secretKey, Money minimumBalance,
+					Money monthlyMaintenanceFee, Date creationDate, Status status) {
 		super(balance, primaryOwner, secondaryOwner, penaltyFee);
 		this.secretKey = secretKey;
 		this.minimumBalance = minimumBalance;
@@ -53,19 +63,19 @@ public class Checking extends Account{
 		this.secretKey = secretKey;
 	}
 
-	public BigDecimal getMinimumBalance() {
+	public Money getMinimumBalance() {
 		return minimumBalance;
 	}
 
-	public void setMinimumBalance(BigDecimal minimumBalance) {
+	public void setMinimumBalance(Money minimumBalance) {
 		this.minimumBalance = minimumBalance;
 	}
 
-	public BigDecimal getMonthlyMaintenanceFee() {
+	public Money getMonthlyMaintenanceFee() {
 		return monthlyMaintenanceFee;
 	}
 
-	public void setMonthlyMaintenanceFee(BigDecimal monthlyMaintenanceFee) {
+	public void setMonthlyMaintenanceFee(Money monthlyMaintenanceFee) {
 		this.monthlyMaintenanceFee = monthlyMaintenanceFee;
 	}
 
