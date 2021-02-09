@@ -30,7 +30,7 @@ public class Savings extends Account{
 	}
 
 	public Savings(Money balance, AccountHolder primaryOwner, String secretKey, Status status) {
-		super(balance, primaryOwner, null);
+		super(balance, primaryOwner);
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("1000")));
 		setCreationDate(new Date());

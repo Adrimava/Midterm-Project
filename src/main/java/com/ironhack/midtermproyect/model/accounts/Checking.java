@@ -36,7 +36,7 @@ public class Checking extends Account{
 
 	public Checking(Money balance, AccountHolder primaryOwner,
 					String secretKey, Status status) {
-		super(balance, primaryOwner, null);
+		super(balance, primaryOwner);
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("250")));
 		setMonthlyMaintenanceFee(new Money(new BigDecimal("12")));

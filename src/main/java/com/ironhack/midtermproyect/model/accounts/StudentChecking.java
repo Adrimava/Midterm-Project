@@ -23,7 +23,7 @@ public class StudentChecking extends Account {
 
 	public StudentChecking(Money balance, AccountHolder primaryOwner,
 						   String secretKey, Status status) {
-		super(balance, primaryOwner, null);
+		super(balance, primaryOwner);
 		setSecretKey(secretKey);
 		setCreationDate(new Date());
 		setStatus(status);

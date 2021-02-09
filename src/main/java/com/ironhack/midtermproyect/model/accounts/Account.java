@@ -38,10 +38,10 @@ public abstract class Account {
 	public Account() {
 	}
 
-	public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+	public Account(Money balance, AccountHolder primaryOwner) {
 		setBalance(balance);
 		setPrimaryOwner(primaryOwner);
-		setSecondaryOwner(secondaryOwner);
+		setSecondaryOwner(null);
 		setPenaltyFee(new Money(new BigDecimal("40")));
 	}
 
