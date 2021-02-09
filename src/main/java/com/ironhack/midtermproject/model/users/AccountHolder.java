@@ -1,7 +1,7 @@
-package com.ironhack.midtermproyect.model.users;
+package com.ironhack.midtermproject.model.users;
 
-import com.ironhack.midtermproyect.model.accounts.Account;
-import com.ironhack.midtermproyect.model.other.Address;
+import com.ironhack.midtermproject.model.accounts.Account;
+import com.ironhack.midtermproject.model.other.Address;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package com.ironhack.midtermproyect;
+package com.ironhack.midtermproject;
 import javax.persistence.Embeddable;
 import java.math.RoundingMode;
 import java.math.BigDecimal;

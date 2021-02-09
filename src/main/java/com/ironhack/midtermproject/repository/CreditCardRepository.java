@@ -1,6 +1,6 @@
-package com.ironhack.midtermproyect.repository;
+package com.ironhack.midtermproject.repository;
 
-import com.ironhack.midtermproyect.model.accounts.CreditCard;
+import com.ironhack.midtermproject.model.accounts.CreditCard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

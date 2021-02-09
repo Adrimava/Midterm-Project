@@ -1,13 +1,13 @@
-package com.ironhack.midtermproyect;
+package com.ironhack.midtermproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MidtermProyectApplication {
+public class MidtermProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MidtermProyectApplication.class, args);
+		SpringApplication.run(MidtermProjectApplication.class, args);
 	}
 
 }

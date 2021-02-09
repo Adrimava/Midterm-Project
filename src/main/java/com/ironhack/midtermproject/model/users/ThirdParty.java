@@ -1,4 +1,4 @@
-package com.ironhack.midtermproyect.model.users;
+package com.ironhack.midtermproject.model.users;
 
 import javax.persistence.*;
 

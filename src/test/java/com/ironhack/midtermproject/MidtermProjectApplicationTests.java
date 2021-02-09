@@ -1,10 +1,10 @@
-package com.ironhack.midtermproyect;
+package com.ironhack.midtermproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MidtermProyectApplicationTests {
+class MidtermProjectApplicationTests {
 
 	@Test
 	void contextLoads() {

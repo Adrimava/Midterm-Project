@@ -1,7 +1,7 @@
-package com.ironhack.midtermproyect.model.accounts;
+package com.ironhack.midtermproject.model.accounts;
 
-import com.ironhack.midtermproyect.Money;
-import com.ironhack.midtermproyect.model.users.AccountHolder;
+import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
