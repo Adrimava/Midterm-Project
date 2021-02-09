@@ -88,9 +88,10 @@ public class Savings extends Account{
 
 	public void setInterestRate(BigDecimal interestRate) {
 		BigDecimal max = new BigDecimal("0.5");
+		BigDecimal min = new BigDecimal("0.0025");
 
-		if (interestRate.compareTo(max) > 0)
-			throw new IllegalArgumentException("Interest rate cannot be greater than 0.5.");
+		if (interestRate.compareTo(max) > 0 || interestRate.compareTo(min) < 0)
+			throw new IllegalArgumentException("Interest rate must be a value between 0.0025 and 0.5.");
 		else
 			this.interestRate = interestRate;
 	}

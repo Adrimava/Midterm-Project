@@ -24,16 +24,10 @@ public class CreditCard extends Account {
 	public CreditCard() {
 	}
 
-	public CreditCard(Money balance, AccountHolder primaryOwner, Money penaltyFee,
-					  Money creditLimit, BigDecimal interestRate) {
-		this(balance, primaryOwner, null, penaltyFee, creditLimit, interestRate);
-	}
-
-	public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
-					  Money penaltyFee, Money creditLimit, BigDecimal interestRate) {
-		super(balance, primaryOwner, secondaryOwner, penaltyFee);
-		this.creditLimit = creditLimit;
-		this.interestRate = interestRate;
+	public CreditCard(Money balance, AccountHolder primaryOwner, Money penaltyFee) {
+		super(balance, primaryOwner, null, penaltyFee);
+		setCreditLimit(new Money(new BigDecimal("100")));
+		setInterestRate(new BigDecimal("0.2"));
 	}
 
 	/*
@@ -45,7 +39,14 @@ public class CreditCard extends Account {
 	}
 
 	public void setCreditLimit(Money creditLimit) {
-		this.creditLimit = creditLimit;
+		BigDecimal max = new BigDecimal("100000");
+		BigDecimal min = new BigDecimal("100");
+		BigDecimal amount = creditLimit.getAmount();
+
+		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
+			throw new IllegalArgumentException("Credit limit must be a value between 100 and 1000000");
+		else
+			this.creditLimit = creditLimit;
 	}
 
 	public BigDecimal getInterestRate() {
@@ -53,6 +54,12 @@ public class CreditCard extends Account {
 	}
 
 	public void setInterestRate(BigDecimal interestRate) {
-		this.interestRate = interestRate;
+		BigDecimal max = new BigDecimal("0.2");
+		BigDecimal min = new BigDecimal("0.1");
+
+		if (interestRate.compareTo(max) > 0 || interestRate.compareTo(min) < 0)
+			throw new IllegalArgumentException("Interest rate must be a value between 0.2 and 0.1.");
+		else
+			this.interestRate = interestRate;
 	}
 }
