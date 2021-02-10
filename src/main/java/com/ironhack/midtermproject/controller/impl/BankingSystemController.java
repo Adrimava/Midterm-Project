@@ -29,16 +29,6 @@ import java.util.List;
 
 @RestController
 public class BankingSystemController implements IBankingSystemController {
-	Money money1 = new Money(new BigDecimal("5555"));
-	Money money2 = new Money(new BigDecimal("7777"));
-	Address address1 = new Address("Gran Via", 90);
-	Address address2 = new Address("Palencia", 10);
-	LocalDate localDate = null;
-	AccountHolder accountHolder1 = new AccountHolder("Jose Perez", localDate, address1);
-	AccountHolder accountHolder2 = new AccountHolder("Manuela Garcia", localDate, address1);
-	Checking checking1 = new Checking(money1, accountHolder1, "secretKey", Status.ACTIVE);
-	Checking checking2 = new Checking(money2, accountHolder2, "password", Status.FROZEN);
-
 
 	@Autowired
 	private CheckingRepository checkingRepository;
@@ -55,14 +45,34 @@ public class BankingSystemController implements IBankingSystemController {
 	@Autowired
 	private ThirdPartyRepository thirdPartyRepository;
 
-	@GetMapping("/checking")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Checking> findAllChecking() {
+
+	/////////////////////////////////	JUST FOR TESTING PURPOSES	////////////////////////////////////////////
+	@GetMapping("/init")
+	public List<Checking> init() {
+		Money money1 = new Money(new BigDecimal("5555"));
+		Money money2 = new Money(new BigDecimal("7777"));
+		Address address1 = new Address("Gran Via", 90);
+		Address address2 = new Address("Palencia", 10);
+		LocalDate localDate1 = LocalDate.of(1950, 10, 10);
+		LocalDate localDate2 = LocalDate.of(2000, 5, 5);
+		AccountHolder accountHolder1 = new AccountHolder("Jose Perez", localDate1, address1);
+		AccountHolder accountHolder2 = new AccountHolder("Manuela Garcia", localDate2, address2);
+		Checking checking1 = new Checking(money1, accountHolder1, "secretKey", Status.ACTIVE);
+		Checking checking2 = new Checking(money2, accountHolder2, "password", Status.FROZEN);
 
 		accountHolderRepository.save(accountHolder1);
 		accountHolderRepository.save(accountHolder2);
 		checkingRepository.save(checking1);
 		checkingRepository.save(checking2);
+
+		return checkingRepository.findAll();
+	}
+
+
+
+	@GetMapping("/checking")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Checking> findAllChecking() {
 
 		return checkingRepository.findAll();
 	}
@@ -89,8 +99,6 @@ public class BankingSystemController implements IBankingSystemController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Checking store() {
 
-		accountHolderRepository.save(accountHolder1);
-
-		return checkingRepository.save(checking1);
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package com.ironhack.midtermproject.model.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.midtermproject.model.accounts.Account;
 import com.ironhack.midtermproject.model.other.Address;
 
@@ -14,8 +15,10 @@ public class AccountHolder extends User {
 	@Embedded
 	private Address address;
 	private String email;
+	@JsonIgnore
 	@OneToMany(mappedBy = "primaryOwner")
 	private List<Account> primaryAccounts;
+	@JsonIgnore
 	@OneToMany(mappedBy = "secondaryOwner")
 	private List<Account> secondaryAccounts;
 
