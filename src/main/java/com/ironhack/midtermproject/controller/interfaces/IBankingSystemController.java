@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface IBankingSystemController {
 
-	public List<Checking> findAllChecking();
-	public List<CreditCard> findAllCreditCard();
-	public List<Savings> findAllSavings();
-	public List<StudentChecking> findAllStudentChecking();
-
+	List<Checking> findAllChecking();
+	List<CreditCard> findAllCreditCard();
+	List<Savings> findAllSavings();
+	List<StudentChecking> findAllStudentChecking();
+	Checking store();
 }

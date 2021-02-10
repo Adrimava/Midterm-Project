@@ -1,7 +1,7 @@
 package com.ironhack.midtermproject.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ironhack.midtermproject.repository.CheckingRepository;
+import com.ironhack.midtermproject.repository.accounts.CheckingRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

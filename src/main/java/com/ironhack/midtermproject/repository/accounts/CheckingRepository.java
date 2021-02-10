@@ -1,4 +1,4 @@
-package com.ironhack.midtermproject.repository;
+package com.ironhack.midtermproject.repository.accounts;
 
 import com.ironhack.midtermproject.model.accounts.Checking;
 import org.springframework.data.jpa.repository.JpaRepository;
