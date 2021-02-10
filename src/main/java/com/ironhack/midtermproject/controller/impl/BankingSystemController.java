@@ -16,6 +16,7 @@ import com.ironhack.midtermproject.repository.accounts.StudentCheckingRepository
 import com.ironhack.midtermproject.repository.users.AccountHolderRepository;
 import com.ironhack.midtermproject.repository.users.AdminRepository;
 import com.ironhack.midtermproject.repository.users.ThirdPartyRepository;
+import com.ironhack.midtermproject.service.interfaces.IBankingSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,8 @@ public class BankingSystemController implements IBankingSystemController {
 	private AdminRepository adminRepository;
 	@Autowired
 	private ThirdPartyRepository thirdPartyRepository;
+	@Autowired
+	private IBankingSystemService bankingSystemService;
 
 
 	/////////////////////////////////	JUST FOR TESTING PURPOSES	////////////////////////////////////////////
@@ -126,5 +129,12 @@ public class BankingSystemController implements IBankingSystemController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public StudentChecking storeStudentChecking(@RequestBody @Valid StudentChecking studentChecking) {
 		return studentCheckingRepository.save(studentChecking);
+	}
+
+	@PostMapping("/checking/create/{id}/{balance}/{secretKey}/{status}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void createChecking(@PathVariable Integer id, @PathVariable BigDecimal balance,
+							   @PathVariable String secretKey, @PathVariable String status) {
+		bankingSystemService.createChecking(id,balance,secretKey,status);
 	}
 }
