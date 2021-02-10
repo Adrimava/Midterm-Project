@@ -18,11 +18,9 @@ import com.ironhack.midtermproject.repository.users.AdminRepository;
 import com.ironhack.midtermproject.repository.users.ThirdPartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -48,7 +46,7 @@ public class BankingSystemController implements IBankingSystemController {
 
 	/////////////////////////////////	JUST FOR TESTING PURPOSES	////////////////////////////////////////////
 	@GetMapping("/init")
-	public List<Checking> init() {
+	public void init() {
 		Money money1 = new Money(new BigDecimal("5555"));
 		Money money2 = new Money(new BigDecimal("7777"));
 		Address address1 = new Address("Gran Via", 90);
@@ -59,13 +57,24 @@ public class BankingSystemController implements IBankingSystemController {
 		AccountHolder accountHolder2 = new AccountHolder("Manuela Garcia", localDate2, address2);
 		Checking checking1 = new Checking(money1, accountHolder1, "secretKey", Status.ACTIVE);
 		Checking checking2 = new Checking(money2, accountHolder2, "password", Status.FROZEN);
+		CreditCard creditCard1 = new CreditCard(money1, accountHolder1);
+		CreditCard creditCard2 = new CreditCard(money2, accountHolder2);
+		Savings savings1 = new Savings(money1, accountHolder1, "SavingsKey", Status.ACTIVE);
+		Savings savings2 = new Savings(money2, accountHolder2, "SavingsPassword", Status.FROZEN);
+		StudentChecking studentChecking1 = new StudentChecking(money1, accountHolder1, "StudentKey", Status.FROZEN);
+		StudentChecking studentChecking2 = new StudentChecking(money2, accountHolder2, "StudentPassword", Status.ACTIVE);
+
 
 		accountHolderRepository.save(accountHolder1);
 		accountHolderRepository.save(accountHolder2);
 		checkingRepository.save(checking1);
 		checkingRepository.save(checking2);
-
-		return checkingRepository.findAll();
+		creditCardRepository.save(creditCard1);
+		creditCardRepository.save(creditCard2);
+		savingsRepository.save(savings1);
+		savingsRepository.save(savings2);
+		studentCheckingRepository.save(studentChecking1);
+		studentCheckingRepository.save(studentChecking2);
 	}
 
 
@@ -97,8 +106,25 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/checking")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Checking store() {
+	public Checking storeChecking(@RequestBody @Valid Checking checking) {
+		return checkingRepository.save(checking);
+	}
 
-		return null;
+	@PostMapping("/credit-card")
+	@ResponseStatus(HttpStatus.CREATED)
+	public CreditCard storeCreditCard(@RequestBody @Valid CreditCard creditCard) {
+		return creditCardRepository.save(creditCard);
+	}
+
+	@PostMapping("/savings")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Savings storeSavings(@RequestBody @Valid Savings savings) {
+		return savingsRepository.save(savings);
+	}
+
+	@PostMapping("/student-checking")
+	@ResponseStatus(HttpStatus.CREATED)
+	public StudentChecking storeStudentChecking(@RequestBody @Valid StudentChecking studentChecking) {
+		return studentCheckingRepository.save(studentChecking);
 	}
 }

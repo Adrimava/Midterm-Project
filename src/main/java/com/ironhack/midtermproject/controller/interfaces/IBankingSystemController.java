@@ -13,5 +13,8 @@ public interface IBankingSystemController {
 	List<CreditCard> findAllCreditCard();
 	List<Savings> findAllSavings();
 	List<StudentChecking> findAllStudentChecking();
-	Checking store();
+	Checking storeChecking(Checking checking);
+	CreditCard storeCreditCard(CreditCard creditCard);
+	Savings storeSavings(Savings savings);
+	StudentChecking storeStudentChecking(StudentChecking studentChecking);
 }
