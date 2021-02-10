@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.controller.impl;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.controller.dto.AmountDTO;
 import com.ironhack.midtermproject.controller.interfaces.IBankingSystemController;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
@@ -136,5 +137,12 @@ public class BankingSystemController implements IBankingSystemController {
 	public void createChecking(@PathVariable Integer id, @PathVariable BigDecimal balance,
 							   @PathVariable String secretKey, @PathVariable String status) {
 		bankingSystemService.createChecking(id,balance,secretKey,status);
+	}
+
+	@PatchMapping("/checking/withdraw/{userId}/{accountId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void withdrawChecking(@PathVariable Integer userId, @PathVariable Integer accountId,
+								 @RequestBody AmountDTO amountDTO) {
+		bankingSystemService.withdrawChecking(userId, accountId, amountDTO.getAmount());
 	}
 }

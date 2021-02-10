@@ -58,7 +58,31 @@ public class BankingSystemService implements IBankingSystemService {
 				studentCheckingRepository.save(new StudentChecking(money, accountHolder.get(), secretKey, s));
 			}
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary Owner not found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary Owner not found.");
+		}
+	}
+
+	public void withdrawChecking(Integer userId, Integer accountId, BigDecimal amount) {
+		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
+		Optional<Checking> account = checkingRepository.findById(accountId);
+
+		if (accountHolder.isPresent()) {
+			if (account.isPresent()) {
+				if (account.get().getPrimaryOwner().getId().equals(accountHolder.get().getId()) ||
+						account.get().getSecondaryOwner().getId().equals(accountHolder.get().getId())) {
+					account.get().getBalance().decreaseAmount(amount);
+					if (account.get().getBalance().getAmount().compareTo(account.get().getMinimumBalance().getAmount()) < 0) {
+						account.get().getBalance().decreaseAmount(account.get().getPenaltyFee());
+					}
+					checkingRepository.save(account.get());
+				} else {
+					throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User cannot withdraw from that account.");
+				}
+			} else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 		}
 	}
 }

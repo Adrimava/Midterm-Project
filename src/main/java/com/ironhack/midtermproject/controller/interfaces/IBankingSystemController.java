@@ -1,10 +1,13 @@
 package com.ironhack.midtermproject.controller.interfaces;
 
+import com.ironhack.midtermproject.controller.dto.AmountDTO;
 import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IBankingSystemController {
@@ -17,4 +20,5 @@ public interface IBankingSystemController {
 	CreditCard storeCreditCard(CreditCard creditCard);
 	Savings storeSavings(Savings savings);
 	StudentChecking storeStudentChecking(StudentChecking studentChecking);
+	void withdrawChecking(Integer userId, Integer accountId, AmountDTO amountDTO);
 }
