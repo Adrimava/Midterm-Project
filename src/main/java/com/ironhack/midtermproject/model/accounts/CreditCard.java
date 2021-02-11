@@ -5,9 +5,6 @@ import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Entity

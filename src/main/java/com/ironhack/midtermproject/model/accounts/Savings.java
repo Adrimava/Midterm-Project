@@ -7,18 +7,12 @@ import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "accountId")
 public class Savings extends Account{
-	@NotNull
 	private String secretKey;
 	@Embedded
 	@AttributeOverrides({
@@ -26,10 +20,7 @@ public class Savings extends Account{
 			@AttributeOverride(name = "currency", column = @Column(name = "minimum_balance_currency"))
 	})
 	private Money minimumBalance;
-	@NotNull
 	private Status status;
-	@DecimalMin(value = "0.0025", message = "Interest rate must be equal or higher than 0.0025.")
-	@DecimalMax(value = "0.5", message = "Interest rate must be equal or lower than 0.5.")
 	private BigDecimal interestRate;
 //	@JsonIgnore
 	private Date lastModificationDate;
@@ -41,7 +32,7 @@ public class Savings extends Account{
 	public Savings() {
 	}
 
-	public Savings(Money balance, AccountHolder primaryOwner, String secretKey, Status status) throws ParseException {
+	public Savings(Money balance, AccountHolder primaryOwner, String secretKey, Status status) {
 		super(balance, primaryOwner, AccountType.SAVINGS);
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("1000")));
@@ -50,12 +41,12 @@ public class Savings extends Account{
 		setInterestRate(new BigDecimal("0.0025"));
 
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //////
-		Date date1 = sdf.parse("10-10-2000");////////////////////////////
-		setLastModificationDate(date1);////////////////////////////////////////
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //////
+//		Date date1 = sdf.parse("10-10-2000");////////////////////////////
+//		setLastModificationDate(date1);////////////////////////////////////////
 
 
-//		setLastModificationDate(super.getCreationDate());
+		setLastModificationDate(super.getCreationDate());
 	}
 
 	/*

@@ -3,6 +3,7 @@ package com.ironhack.midtermproject.controller.impl;
 import com.ironhack.midtermproject.Money;
 import com.ironhack.midtermproject.controller.dto.AmountDTO;
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
+import com.ironhack.midtermproject.controller.dto.SavingsDTO;
 import com.ironhack.midtermproject.controller.interfaces.IBankingSystemController;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
@@ -163,8 +164,10 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/savings")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Savings createSavings(@RequestBody @Valid Savings savings) {
-		return bankingSystemService.createSavings(savings);
+	public Savings createSavings(@RequestBody @Valid SavingsDTO savingsDTO,
+								 @RequestParam(defaultValue = "1000") BigDecimal minimumBalance,
+								 @RequestParam(defaultValue = "0.0025") BigDecimal interestRate) {
+		return bankingSystemService.createSavings(savingsDTO, minimumBalance, interestRate);
 	}
 
 	@PostMapping("/student-checking")

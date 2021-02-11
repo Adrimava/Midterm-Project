@@ -2,6 +2,7 @@ package com.ironhack.midtermproject.service.impl;
 
 import com.ironhack.midtermproject.Money;
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
+import com.ironhack.midtermproject.controller.dto.SavingsDTO;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.*;
@@ -120,9 +121,11 @@ public class BankingSystemService implements IBankingSystemService {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(creditCardDTO.getUserId());
 
 		if (accountHolder.isPresent()) {
-			if (creditLimit.compareTo(new BigDecimal("100")) < 0 || creditLimit.compareTo(new BigDecimal("100000")) > 0 )
+			if (creditLimit.compareTo(new BigDecimal("100")) < 0 ||
+					creditLimit.compareTo(new BigDecimal("100000")) > 0 )
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit must be a value between 100 and 100000");
-			if (interestRate.compareTo(new BigDecimal("0.1")) < 0 || interestRate.compareTo(new BigDecimal("0.2")) > 0 )
+			if (interestRate.compareTo(new BigDecimal("0.1")) < 0 ||
+					interestRate.compareTo(new BigDecimal("0.2")) > 0 )
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate must be a value between 0.1 and 0.2");
 			CreditCard creditCard = new CreditCard(new Money(creditCardDTO.getMoney()), accountHolder.get());
 			creditCard.setCreditLimit(new Money(creditLimit));
@@ -133,16 +136,33 @@ public class BankingSystemService implements IBankingSystemService {
 		}
 	}
 
-	public Savings createSavings(Savings savings) {
-		BigDecimal max = new BigDecimal("1000");
-		BigDecimal min = new BigDecimal("100");
-		BigDecimal amount = savings.getMinimumBalance().getAmount();
+	public Savings createSavings(SavingsDTO savingsDTO, BigDecimal minimumBalance, BigDecimal interestRate) {
+		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(savingsDTO.getUserId());
 
-		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minimum balance must be a value between 100 and 1000");
-		else
+		if (accountHolder.isPresent()) {
+			if (minimumBalance.compareTo(new BigDecimal("100")) < 0 ||
+					minimumBalance.compareTo(new BigDecimal("1000")) > 0 )
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit must be a value between 100 and 1000");
+			if (interestRate.compareTo(new BigDecimal("0.0025")) < 0 ||
+					interestRate.compareTo(new BigDecimal("0.5")) > 0 )
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate must be a value between 0.0025 and 0.5");
+			if (!savingsDTO.getStatus().equalsIgnoreCase("ACTIVE") &&
+					!savingsDTO.getStatus().equalsIgnoreCase("FROZEN")) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status must be either Active or Frozen");
+			}
+			Savings savings = new Savings(new Money(savingsDTO.getBalance()), accountHolder.get(),
+					savingsDTO.getSecretKey(), Status.valueOf(savingsDTO.getStatus().toUpperCase()));
+			savings.setMinimumBalance(new Money(minimumBalance));
+			savings.setInterestRate(interestRate);
 			return savingsRepository.save(savings);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+		}
 	}
+
+	/*
+	**	WITHDRAW METHOD
+	 */
 
 	public void withdraw(Integer userId, Integer accountId, BigDecimal amount) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
@@ -179,6 +199,10 @@ public class BankingSystemService implements IBankingSystemService {
 		}
 	}
 
+	/*
+	**	DEPOSIT METHOD
+	 */
+
 	public void deposit(Integer userId, Integer accountId, BigDecimal amount) {
 		Optional<User> user = userRepository.findById(userId);
 		Optional<Account> account = accountRepository.findById(accountId);
@@ -194,6 +218,10 @@ public class BankingSystemService implements IBankingSystemService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 		}
 	}
+
+	/*
+	**	INTEREST METHODS
+	 */
 
 	public void savingsInterest(Integer id) {
 		Optional<Savings> savings = savingsRepository.findById(id);

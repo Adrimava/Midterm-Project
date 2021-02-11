@@ -2,6 +2,7 @@ package com.ironhack.midtermproject.service.interfaces;
 
 
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
+import com.ironhack.midtermproject.controller.dto.SavingsDTO;
 import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
@@ -17,7 +18,7 @@ public interface IBankingSystemService {
 	Optional<StudentChecking> findStudentCheckingById(Integer id);
 	void createChecking(Integer id, BigDecimal balance, String secretKey, String status);
 	CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit, BigDecimal interestRate);
-	Savings createSavings(Savings savings);
+	Savings createSavings(SavingsDTO savingsDTO, BigDecimal minimumBalance, BigDecimal interestRate);
 	void withdraw(Integer userId, Integer accountId, BigDecimal amount);
 	void deposit(Integer userId, Integer accountId, BigDecimal amount);
 	void savingsInterest(Integer id);
