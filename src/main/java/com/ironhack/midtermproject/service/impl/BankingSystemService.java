@@ -181,11 +181,13 @@ public class BankingSystemService implements IBankingSystemService {
 						}
 					}
 					else if (account.get().getAccountType().equals(AccountType.SAVINGS)) {
-						//savingsInterest(accountId);
+						savingsInterest(accountId);
 						Optional<Savings> savings = savingsRepository.findById(accountId);
 						if (savings.get().getBalance().getAmount().compareTo(savings.get().getMinimumBalance().getAmount()) < 0) {
 							savings.get().getBalance().decreaseAmount(savings.get().getPenaltyFee());
 						}
+					} else if (account.get().getAccountType().equals(AccountType.CREDIT_CARD)) {
+						creditCardInterest(accountId);
 					}
 					accountRepository.save(account.get());
 				} else {
@@ -239,6 +241,28 @@ public class BankingSystemService implements IBankingSystemService {
 				savings.get().getBalance().increaseAmount(interest);
 				savings.get().setLastModificationDate(new Date());
 				savingsRepository.save(savings.get());
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
+		}
+	}
+
+	public void creditCardInterest(Integer id) {
+		Optional<CreditCard> creditCard = creditCardRepository.findById(id);
+
+		if (creditCard.isPresent()) {
+			long months = Math.abs(new Date().getTime() - creditCard.get().getLastModificationDate().getTime());
+			months = TimeUnit.DAYS.convert(months, TimeUnit.MILLISECONDS) / 30;
+			if (months > 0) {
+				BigDecimal interest = (new BigDecimal("1"));
+				for (long i = 0; i < months; i++) {
+					interest = interest.multiply(creditCard.get().getInterestRate().add(new BigDecimal("1")));
+				}
+				BigDecimal newBalance = creditCard.get().getBalance().getAmount().multiply(interest);
+				interest = newBalance.subtract(creditCard.get().getBalance().getAmount());
+				creditCard.get().getBalance().increaseAmount(interest);
+				creditCard.get().setLastModificationDate(new Date());
+				creditCardRepository.save(creditCard.get());
 			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");

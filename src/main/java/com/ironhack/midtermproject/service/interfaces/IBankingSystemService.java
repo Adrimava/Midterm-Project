@@ -22,4 +22,5 @@ public interface IBankingSystemService {
 	void withdraw(Integer userId, Integer accountId, BigDecimal amount);
 	void deposit(Integer userId, Integer accountId, BigDecimal amount);
 	void savingsInterest(Integer id);
+	void creditCardInterest(Integer id);
 }
