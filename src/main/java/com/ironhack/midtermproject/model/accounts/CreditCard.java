@@ -5,6 +5,9 @@ import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Entity
@@ -16,6 +19,8 @@ public class CreditCard extends Account {
 			@AttributeOverride(name = "currency", column = @Column(name = "credit_limit_currency"))
 	})
 	private Money creditLimit;
+	@DecimalMin(value = "0.1", message = "Interest rate must be equal or higher than 0.1.")
+	@DecimalMax(value = "0.2", message = "Interest rate must be equal or lower than 0.2.")
 	private BigDecimal interestRate;
 
 	/*
@@ -40,14 +45,7 @@ public class CreditCard extends Account {
 	}
 
 	public void setCreditLimit(Money creditLimit) {
-		BigDecimal max = new BigDecimal("100000");
-		BigDecimal min = new BigDecimal("100");
-		BigDecimal amount = creditLimit.getAmount();
-
-		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
-			throw new IllegalArgumentException("Credit limit must be a value between 100 and 1000000");
-		else
-			this.creditLimit = creditLimit;
+		this.creditLimit = creditLimit;
 	}
 
 	public BigDecimal getInterestRate() {
@@ -55,12 +53,6 @@ public class CreditCard extends Account {
 	}
 
 	public void setInterestRate(BigDecimal interestRate) {
-		BigDecimal max = new BigDecimal("0.2");
-		BigDecimal min = new BigDecimal("0.1");
-
-		if (interestRate.compareTo(max) > 0 || interestRate.compareTo(min) < 0)
-			throw new IllegalArgumentException("Interest rate must be a value between 0.2 and 0.1.");
-		else
-			this.interestRate = interestRate;
+		this.interestRate = interestRate;
 	}
 }

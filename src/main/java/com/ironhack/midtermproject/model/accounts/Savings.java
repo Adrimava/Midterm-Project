@@ -6,6 +6,8 @@ import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,6 +26,8 @@ public class Savings extends Account{
 	private Date creationDate;
 	@NotNull
 	private Status status;
+	@DecimalMin(value = "0.0025", message = "Interest rate must be equal or higher than 0.0025.")
+	@DecimalMax(value = "0.5", message = "Interest rate must be equal or lower than 0.5.")
 	private BigDecimal interestRate;
 
 	/*
@@ -59,14 +63,7 @@ public class Savings extends Account{
 	}
 
 	public void setMinimumBalance(Money minimumBalance) {
-		BigDecimal max = new BigDecimal("1000");
-		BigDecimal min = new BigDecimal("100");
-		BigDecimal amount = minimumBalance.getAmount();
-
-		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
-			throw new IllegalArgumentException("Minimum balance must be a value between 100 and 1000");
-		else
-			this.minimumBalance = minimumBalance;
+		this.minimumBalance = minimumBalance;
 	}
 
 	public Date getCreationDate() {
@@ -90,12 +87,6 @@ public class Savings extends Account{
 	}
 
 	public void setInterestRate(BigDecimal interestRate) {
-		BigDecimal max = new BigDecimal("0.5");
-		BigDecimal min = new BigDecimal("0.0025");
-
-		if (interestRate.compareTo(max) > 0 || interestRate.compareTo(min) < 0)
-			throw new IllegalArgumentException("Interest rate must be a value between 0.0025 and 0.5.");
-		else
-			this.interestRate = interestRate;
+		this.interestRate = interestRate;
 	}
 }

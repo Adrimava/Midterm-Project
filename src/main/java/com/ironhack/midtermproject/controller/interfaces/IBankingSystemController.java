@@ -16,10 +16,11 @@ public interface IBankingSystemController {
 	List<CreditCard> findAllCreditCard();
 	List<Savings> findAllSavings();
 	List<StudentChecking> findAllStudentChecking();
-	Checking storeChecking(Checking checking);
-	CreditCard storeCreditCard(CreditCard creditCard);
-	Savings storeSavings(Savings savings);
-	StudentChecking storeStudentChecking(StudentChecking studentChecking);
+	Checking createChecking(Checking checking);
+	CreditCard createCreditCard(CreditCard creditCard);
+	Savings createSavings(Savings savings);
+	StudentChecking createStudentChecking(StudentChecking studentChecking);
+	void createChecking(Integer id, BigDecimal balance, String secretKey, String status);
 	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);
 }

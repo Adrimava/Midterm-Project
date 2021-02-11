@@ -3,10 +3,7 @@ package com.ironhack.midtermproject.service.impl;
 import com.ironhack.midtermproject.Money;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
-import com.ironhack.midtermproject.model.accounts.Account;
-import com.ironhack.midtermproject.model.accounts.Checking;
-import com.ironhack.midtermproject.model.accounts.Savings;
-import com.ironhack.midtermproject.model.accounts.StudentChecking;
+import com.ironhack.midtermproject.model.accounts.*;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 import com.ironhack.midtermproject.model.users.User;
 import com.ironhack.midtermproject.repository.accounts.*;
@@ -66,6 +63,28 @@ public class BankingSystemService implements IBankingSystemService {
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary Owner not found.");
 		}
+	}
+
+	public CreditCard createCreditCard(CreditCard creditCard) {
+		BigDecimal max = new BigDecimal("100000");
+		BigDecimal min = new BigDecimal("100");
+		BigDecimal amount = creditCard.getCreditLimit().getAmount();
+
+		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit must be a value between 100 and 100000");
+		else
+			return creditCardRepository.save(creditCard);
+	}
+
+	public Savings createSavings(Savings savings) {
+		BigDecimal max = new BigDecimal("1000");
+		BigDecimal min = new BigDecimal("100");
+		BigDecimal amount = savings.getMinimumBalance().getAmount();
+
+		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minimum balance must be a value between 100 and 1000");
+		else
+			return savingsRepository.save(savings);
 	}
 
 	public void withdraw(Integer userId, Integer accountId, BigDecimal amount) {

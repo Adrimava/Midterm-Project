@@ -110,25 +110,25 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/checking")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Checking storeChecking(@RequestBody @Valid Checking checking) {
+	public Checking createChecking(@RequestBody @Valid Checking checking) {
 		return checkingRepository.save(checking);
 	}
 
 	@PostMapping("/credit-card")
 	@ResponseStatus(HttpStatus.CREATED)
-	public CreditCard storeCreditCard(@RequestBody @Valid CreditCard creditCard) {
-		return creditCardRepository.save(creditCard);
+	public CreditCard createCreditCard(@RequestBody @Valid CreditCard creditCard) {
+		return bankingSystemService.createCreditCard(creditCard);
 	}
 
 	@PostMapping("/savings")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Savings storeSavings(@RequestBody @Valid Savings savings) {
-		return savingsRepository.save(savings);
+	public Savings createSavings(@RequestBody @Valid Savings savings) {
+		return bankingSystemService.createSavings(savings);
 	}
 
 	@PostMapping("/student-checking")
 	@ResponseStatus(HttpStatus.CREATED)
-	public StudentChecking storeStudentChecking(@RequestBody @Valid StudentChecking studentChecking) {
+	public StudentChecking createStudentChecking(@RequestBody @Valid StudentChecking studentChecking) {
 		return studentCheckingRepository.save(studentChecking);
 	}
 
