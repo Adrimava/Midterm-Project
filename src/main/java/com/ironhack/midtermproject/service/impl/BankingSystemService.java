@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.service.impl;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.*;
@@ -20,7 +21,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BankingSystemService implements IBankingSystemService {
@@ -44,6 +47,54 @@ public class BankingSystemService implements IBankingSystemService {
 	@Autowired
 	private ThirdPartyRepository thirdPartyRepository;
 
+	/*
+	**	FIND METHODS
+	 */
+
+	public Optional<Checking> findCheckingById(Integer id) {
+		Optional<Checking> checking = checkingRepository.findById(id);
+
+		if (checking.isPresent()) {
+			return checking;
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Checking not found.");
+		}
+	}
+
+	public Optional<CreditCard> findCreditCardById(Integer id) {
+		Optional<CreditCard> creditCard = creditCardRepository.findById(id);
+
+		if (creditCard.isPresent()) {
+			return creditCard;
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CreditCard not found.");
+		}
+	}
+
+	public Optional<Savings> findSavingsById(Integer id) {
+		Optional<Savings> savings = savingsRepository.findById(id);
+
+		if (savings.isPresent()) {
+			return savings;
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Savings not found.");
+		}
+	}
+
+	public Optional<StudentChecking> findStudentCheckingById(Integer id) {
+		Optional<StudentChecking> studentChecking = studentCheckingRepository.findById(id);
+
+		if (studentChecking.isPresent()) {
+			return studentChecking;
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "StudentChecking not found.");
+		}
+	}
+
+	/*
+	**	CREATE METHODS
+	 */
+
 	public void createChecking(Integer id, BigDecimal balance, String secretKey, String status) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(id);
 
@@ -65,15 +116,21 @@ public class BankingSystemService implements IBankingSystemService {
 		}
 	}
 
-	public CreditCard createCreditCard(CreditCard creditCard) {
-		BigDecimal max = new BigDecimal("100000");
-		BigDecimal min = new BigDecimal("100");
-		BigDecimal amount = creditCard.getCreditLimit().getAmount();
+	public CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit, BigDecimal interestRate) {
+		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(creditCardDTO.getUserId());
 
-		if (amount.compareTo(max) > 0 || amount.compareTo(min) < 0)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit must be a value between 100 and 100000");
-		else
+		if (accountHolder.isPresent()) {
+			if (creditLimit.compareTo(new BigDecimal("100")) < 0 || creditLimit.compareTo(new BigDecimal("100000")) > 0 )
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit must be a value between 100 and 100000");
+			if (interestRate.compareTo(new BigDecimal("0.1")) < 0 || interestRate.compareTo(new BigDecimal("0.2")) > 0 )
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate must be a value between 0.1 and 0.2");
+			CreditCard creditCard = new CreditCard(new Money(creditCardDTO.getMoney()), accountHolder.get());
+			creditCard.setCreditLimit(new Money(creditLimit));
+			creditCard.setInterestRate(interestRate);
 			return creditCardRepository.save(creditCard);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+		}
 	}
 
 	public Savings createSavings(Savings savings) {
@@ -102,7 +159,9 @@ public class BankingSystemService implements IBankingSystemService {
 						if (checking.get().getBalance().getAmount().compareTo(checking.get().getMinimumBalance().getAmount()) < 0) {
 							checking.get().getBalance().decreaseAmount(checking.get().getPenaltyFee());
 						}
-					} else if (account.get().getAccountType().equals(AccountType.SAVINGS)) {
+					}
+					else if (account.get().getAccountType().equals(AccountType.SAVINGS)) {
+						//savingsInterest(accountId);
 						Optional<Savings> savings = savingsRepository.findById(accountId);
 						if (savings.get().getBalance().getAmount().compareTo(savings.get().getMinimumBalance().getAmount()) < 0) {
 							savings.get().getBalance().decreaseAmount(savings.get().getPenaltyFee());
@@ -133,6 +192,27 @@ public class BankingSystemService implements IBankingSystemService {
 			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+		}
+	}
+
+	public void savingsInterest(Integer id) {
+		Optional<Savings> savings = savingsRepository.findById(id);
+
+		if (savings.isPresent()) {
+			long years = Math.abs(new Date().getTime() - savings.get().getLastModificationDate().getTime());
+			years = TimeUnit.DAYS.convert(years, TimeUnit.MILLISECONDS) / 365;
+			if (years > 0) {
+				BigDecimal interest = (new BigDecimal("1"));
+				for (long i = 0; i < years; i++) {
+					interest = interest.multiply(savings.get().getInterestRate().add(new BigDecimal("1")));
+				}
+				BigDecimal newBalance = savings.get().getBalance().getAmount().multiply(interest);
+				savings.get().getBalance().increaseAmount(newBalance);
+				savings.get().setLastModificationDate(new Date());
+				savingsRepository.save(savings.get());
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
 		}
 	}
 }

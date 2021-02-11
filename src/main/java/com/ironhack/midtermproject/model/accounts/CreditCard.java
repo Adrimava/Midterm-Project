@@ -19,8 +19,6 @@ public class CreditCard extends Account {
 			@AttributeOverride(name = "currency", column = @Column(name = "credit_limit_currency"))
 	})
 	private Money creditLimit;
-	@DecimalMin(value = "0.1", message = "Interest rate must be equal or higher than 0.1.")
-	@DecimalMax(value = "0.2", message = "Interest rate must be equal or lower than 0.2.")
 	private BigDecimal interestRate;
 
 	/*

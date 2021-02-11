@@ -2,6 +2,7 @@ package com.ironhack.midtermproject.controller.impl;
 
 import com.ironhack.midtermproject.Money;
 import com.ironhack.midtermproject.controller.dto.AmountDTO;
+import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
 import com.ironhack.midtermproject.controller.interfaces.IBankingSystemController;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
@@ -24,8 +25,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class BankingSystemController implements IBankingSystemController {
@@ -50,7 +55,7 @@ public class BankingSystemController implements IBankingSystemController {
 
 	/////////////////////////////////	JUST FOR TESTING PURPOSES	////////////////////////////////////////////
 	@GetMapping("/init")
-	public void init() {
+	public void init() throws ParseException {
 		Money money1 = new Money(new BigDecimal("5555"));
 		Money money2 = new Money(new BigDecimal("7777"));
 		Address address1 = new Address("Gran Via", 90);
@@ -67,6 +72,9 @@ public class BankingSystemController implements IBankingSystemController {
 		Savings savings2 = new Savings(money2, accountHolder2, "SavingsPassword", Status.FROZEN);
 		StudentChecking studentChecking1 = new StudentChecking(money1, accountHolder1, "StudentKey", Status.FROZEN);
 		StudentChecking studentChecking2 = new StudentChecking(money2, accountHolder2, "StudentPassword", Status.ACTIVE);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		Date date1 = sdf.parse("10-10-2000");
+		savings1.setCreationDate(date1);
 
 
 		accountHolderRepository.save(accountHolder1);
@@ -81,7 +89,9 @@ public class BankingSystemController implements IBankingSystemController {
 		studentCheckingRepository.save(studentChecking2);
 	}
 
-
+	/*
+	**	GET MAPPINGS
+	 */
 
 	@GetMapping("/checking")
 	@ResponseStatus(HttpStatus.OK)
@@ -108,6 +118,35 @@ public class BankingSystemController implements IBankingSystemController {
 		return studentCheckingRepository.findAll();
 	}
 
+	@GetMapping("/checking/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Optional<Checking> findCheckingById(@PathVariable Integer id) {
+		return bankingSystemService.findCheckingById(id);
+	}
+
+	@GetMapping("/credit-card/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Optional<CreditCard> findCreditCardById(@PathVariable Integer id) {
+		return bankingSystemService.findCreditCardById(id);
+	}
+
+	@GetMapping("/savings/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Optional<Savings> findSavingsById(@PathVariable Integer id) {
+		bankingSystemService.savingsInterest(id);
+		return bankingSystemService.findSavingsById(id);
+	}
+
+	@GetMapping("/student-checking/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Optional<StudentChecking> findStudentCheckingById(@PathVariable Integer id) {
+		return bankingSystemService.findStudentCheckingById(id);
+	}
+
+	/*
+	**	POST MAPPINGS
+	 */
+
 	@PostMapping("/checking")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Checking createChecking(@RequestBody @Valid Checking checking) {
@@ -116,8 +155,10 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/credit-card")
 	@ResponseStatus(HttpStatus.CREATED)
-	public CreditCard createCreditCard(@RequestBody @Valid CreditCard creditCard) {
-		return bankingSystemService.createCreditCard(creditCard);
+	public CreditCard createCreditCard(@RequestBody @Valid CreditCardDTO creditCardDTO,
+									   @RequestParam(defaultValue = "100") BigDecimal creditLimit,
+									   @RequestParam(defaultValue = "0.2") BigDecimal interestRate) {
+		return bankingSystemService.createCreditCard(creditCardDTO, creditLimit, interestRate);
 	}
 
 	@PostMapping("/savings")

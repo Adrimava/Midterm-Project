@@ -7,6 +7,7 @@ import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -34,6 +35,7 @@ public abstract class Account {
 	protected Money penaltyFee;
 	@JsonIgnore
 	protected AccountType accountType;
+	protected Date creationDate;
 
 	/*
 	**	CONSTRUCTORS
@@ -48,6 +50,7 @@ public abstract class Account {
 		setSecondaryOwner(null);
 		setPenaltyFee(new Money(new BigDecimal("40")));
 		setAccountType(accountType);
+		setCreationDate(new Date());
 	}
 
 	/*
@@ -100,5 +103,13 @@ public abstract class Account {
 
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 }

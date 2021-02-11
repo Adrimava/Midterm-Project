@@ -27,7 +27,6 @@ public class Checking extends Account{
 			@AttributeOverride(name = "currency", column = @Column(name = "monthly_maintenance_fee_currency"))
 	})
 	private Money monthlyMaintenanceFee;
-	private Date creationDate;
 	@NotNull
 	private Status status;
 
@@ -44,7 +43,6 @@ public class Checking extends Account{
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("250")));
 		setMonthlyMaintenanceFee(new Money(new BigDecimal("12")));
-		setCreationDate(new Date());
 		setStatus(status);
 	}
 
@@ -74,14 +72,6 @@ public class Checking extends Account{
 
 	public void setMonthlyMaintenanceFee(Money monthlyMaintenanceFee) {
 		this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	private void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
 	}
 
 	public Status getStatus() {

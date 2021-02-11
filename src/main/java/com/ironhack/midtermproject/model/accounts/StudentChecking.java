@@ -14,7 +14,6 @@ import java.util.Date;
 public class StudentChecking extends Account {
 	@NotNull
 	private String secretKey;
-	private Date creationDate;
 	@NotNull
 	private Status status;
 
@@ -29,7 +28,6 @@ public class StudentChecking extends Account {
 						   String secretKey, Status status) {
 		super(balance, primaryOwner, AccountType.STUDENT_CHECKING);
 		setSecretKey(secretKey);
-		setCreationDate(new Date());
 		setStatus(status);
 	}
 
@@ -43,14 +41,6 @@ public class StudentChecking extends Account {
 
 	public void setSecretKey(String secretKey) {
 		this.secretKey = secretKey;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
 	}
 
 	public Status getStatus() {
