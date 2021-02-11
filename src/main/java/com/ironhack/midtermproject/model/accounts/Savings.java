@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.model.accounts;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
@@ -30,7 +31,7 @@ public class Savings extends Account{
 	}
 
 	public Savings(Money balance, AccountHolder primaryOwner, String secretKey, Status status) {
-		super(balance, primaryOwner);
+		super(balance, primaryOwner, AccountType.SAVINGS);
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("1000")));
 		setCreationDate(new Date());

@@ -139,7 +139,7 @@ public class BankingSystemController implements IBankingSystemController {
 		bankingSystemService.createChecking(id,balance,secretKey,status);
 	}
 
-	@PatchMapping("/checking/withdraw/{userId}/{accountId}")
+	@PatchMapping("/account/withdraw/{userId}/{accountId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void withdrawChecking(@PathVariable Integer userId, @PathVariable Integer accountId,
 								 @RequestBody AmountDTO amountDTO) {

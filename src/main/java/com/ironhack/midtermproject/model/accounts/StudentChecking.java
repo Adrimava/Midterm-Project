@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.model.accounts;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
@@ -23,7 +24,7 @@ public class StudentChecking extends Account {
 
 	public StudentChecking(Money balance, AccountHolder primaryOwner,
 						   String secretKey, Status status) {
-		super(balance, primaryOwner);
+		super(balance, primaryOwner, AccountType.STUDENT_CHECKING);
 		setSecretKey(secretKey);
 		setCreationDate(new Date());
 		setStatus(status);

@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.model.accounts;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
@@ -36,7 +37,7 @@ public class Checking extends Account{
 
 	public Checking(Money balance, AccountHolder primaryOwner,
 					String secretKey, Status status) {
-		super(balance, primaryOwner);
+		super(balance, primaryOwner, AccountType.CHECKING);
 		setSecretKey(secretKey);
 		setMinimumBalance(new Money(new BigDecimal("250")));
 		setMonthlyMaintenanceFee(new Money(new BigDecimal("12")));

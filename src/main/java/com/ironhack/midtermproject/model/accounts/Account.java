@@ -1,6 +1,8 @@
 package com.ironhack.midtermproject.model.accounts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
@@ -30,6 +32,8 @@ public abstract class Account {
 			@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))
 	})
 	protected Money penaltyFee;
+	@JsonIgnore
+	protected AccountType accountType;
 
 	/*
 	**	CONSTRUCTORS
@@ -38,11 +42,12 @@ public abstract class Account {
 	public Account() {
 	}
 
-	public Account(Money balance, AccountHolder primaryOwner) {
+	public Account(Money balance, AccountHolder primaryOwner, AccountType accountType) {
 		setBalance(balance);
 		setPrimaryOwner(primaryOwner);
 		setSecondaryOwner(null);
 		setPenaltyFee(new Money(new BigDecimal("40")));
+		setAccountType(accountType);
 	}
 
 	/*
@@ -87,5 +92,13 @@ public abstract class Account {
 
 	public void setPenaltyFee(Money penaltyFee) {
 		this.penaltyFee = penaltyFee;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
 	}
 }

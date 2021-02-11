@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.model.accounts;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class CreditCard extends Account {
 	}
 
 	public CreditCard(Money balance, AccountHolder primaryOwner) {
-		super(balance, primaryOwner);
+		super(balance, primaryOwner, AccountType.CREDIT_CARD);
 		setCreditLimit(new Money(new BigDecimal("100")));
 		setInterestRate(new BigDecimal("0.2"));
 	}
