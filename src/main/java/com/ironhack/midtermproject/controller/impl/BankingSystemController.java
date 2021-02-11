@@ -74,8 +74,8 @@ public class BankingSystemController implements IBankingSystemController {
 		StudentChecking studentChecking1 = new StudentChecking(money1, accountHolder1, "StudentKey", Status.FROZEN);
 		StudentChecking studentChecking2 = new StudentChecking(money2, accountHolder2, "StudentPassword", Status.ACTIVE);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		Date date1 = sdf.parse("10-10-2000");
-		savings1.setCreationDate(date1);
+		Date date1 = sdf.parse("10-10-2018");
+		savings1.setLastModificationDate(date1);
 
 
 		accountHolderRepository.save(accountHolder1);
@@ -182,6 +182,10 @@ public class BankingSystemController implements IBankingSystemController {
 							   @PathVariable String secretKey, @PathVariable String status) {
 		bankingSystemService.createChecking(id,balance,secretKey,status);
 	}
+
+	/*
+	**	PATCH MAPPING
+	 */
 
 	@PatchMapping("/withdraw/{userId}/{accountId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

@@ -7,6 +7,7 @@ import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -21,8 +22,9 @@ public class Savings extends Account{
 	})
 	private Money minimumBalance;
 	private Status status;
+	@Digits(integer = 0,fraction = 4)
 	private BigDecimal interestRate;
-//	@JsonIgnore
+	@JsonIgnore
 	private Date lastModificationDate;
 
 	/*
@@ -39,13 +41,6 @@ public class Savings extends Account{
 		setCreationDate(new Date());
 		setStatus(status);
 		setInterestRate(new BigDecimal("0.0025"));
-
-
-//		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //////
-//		Date date1 = sdf.parse("10-10-2000");////////////////////////////
-//		setLastModificationDate(date1);////////////////////////////////////////
-
-
 		setLastModificationDate(super.getCreationDate());
 	}
 

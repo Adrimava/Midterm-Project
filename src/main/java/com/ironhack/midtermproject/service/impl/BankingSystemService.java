@@ -235,7 +235,8 @@ public class BankingSystemService implements IBankingSystemService {
 					interest = interest.multiply(savings.get().getInterestRate().add(new BigDecimal("1")));
 				}
 				BigDecimal newBalance = savings.get().getBalance().getAmount().multiply(interest);
-				savings.get().getBalance().increaseAmount(newBalance);
+				interest = newBalance.subtract(savings.get().getBalance().getAmount());
+				savings.get().getBalance().increaseAmount(interest);
 				savings.get().setLastModificationDate(new Date());
 				savingsRepository.save(savings.get());
 			}
