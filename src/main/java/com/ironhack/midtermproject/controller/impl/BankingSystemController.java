@@ -139,10 +139,17 @@ public class BankingSystemController implements IBankingSystemController {
 		bankingSystemService.createChecking(id,balance,secretKey,status);
 	}
 
-	@PatchMapping("/account/withdraw/{userId}/{accountId}")
+	@PatchMapping("/withdraw/{userId}/{accountId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void withdrawChecking(@PathVariable Integer userId, @PathVariable Integer accountId,
-								 @RequestBody AmountDTO amountDTO) {
-		bankingSystemService.withdrawChecking(userId, accountId, amountDTO.getAmount());
+	public void withdraw(@PathVariable Integer userId, @PathVariable Integer accountId,
+						 @RequestBody @Valid AmountDTO amountDTO) {
+		bankingSystemService.withdraw(userId, accountId, amountDTO.getAmount());
+	}
+
+	@PatchMapping("/deposit/{userId}/{accountId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deposit(@PathVariable Integer userId, @PathVariable Integer accountId,
+						 @RequestBody @Valid AmountDTO amountDTO) {
+		bankingSystemService.deposit(userId, accountId, amountDTO.getAmount());
 	}
 }

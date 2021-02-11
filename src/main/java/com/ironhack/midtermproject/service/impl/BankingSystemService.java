@@ -8,10 +8,12 @@ import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
 import com.ironhack.midtermproject.model.users.AccountHolder;
+import com.ironhack.midtermproject.model.users.User;
 import com.ironhack.midtermproject.repository.accounts.*;
 import com.ironhack.midtermproject.repository.users.AccountHolderRepository;
 import com.ironhack.midtermproject.repository.users.AdminRepository;
 import com.ironhack.midtermproject.repository.users.ThirdPartyRepository;
+import com.ironhack.midtermproject.repository.users.UserRepository;
 import com.ironhack.midtermproject.service.interfaces.IBankingSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,8 @@ public class BankingSystemService implements IBankingSystemService {
 	private SavingsRepository savingsRepository;
 	@Autowired
 	private StudentCheckingRepository studentCheckingRepository;
+	@Autowired
+	private UserRepository userRepository;
 	@Autowired
 	private AccountHolderRepository accountHolderRepository;
 	@Autowired
@@ -64,7 +68,7 @@ public class BankingSystemService implements IBankingSystemService {
 		}
 	}
 
-	public void withdrawChecking(Integer userId, Integer accountId, BigDecimal amount) {
+	public void withdraw(Integer userId, Integer accountId, BigDecimal amount) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
 		Optional<Account> account = accountRepository.findById(accountId);
 
@@ -89,6 +93,22 @@ public class BankingSystemService implements IBankingSystemService {
 				} else {
 					throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User cannot withdraw from that account.");
 				}
+			} else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+		}
+	}
+
+	public void deposit(Integer userId, Integer accountId, BigDecimal amount) {
+		Optional<User> user = userRepository.findById(userId);
+		Optional<Account> account = accountRepository.findById(accountId);
+
+		if (user.isPresent()) {
+			if (account.isPresent()) {
+				account.get().getBalance().increaseAmount(amount);
+					accountRepository.save(account.get());
 			} else {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
 			}

@@ -20,5 +20,6 @@ public interface IBankingSystemController {
 	CreditCard storeCreditCard(CreditCard creditCard);
 	Savings storeSavings(Savings savings);
 	StudentChecking storeStudentChecking(StudentChecking studentChecking);
-	void withdrawChecking(Integer userId, Integer accountId, AmountDTO amountDTO);
+	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
+	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);
 }
