@@ -6,13 +6,16 @@ import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "accountId")
 public class StudentChecking extends Account {
+	@NotNull
 	private String secretKey;
 	private Date creationDate;
+	@NotNull
 	private Status status;
 
 	/*

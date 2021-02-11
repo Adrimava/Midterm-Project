@@ -6,12 +6,14 @@ import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "accountId")
 public class Checking extends Account{
+	@NotNull
 	private String secretKey;
 	@Embedded
 	@AttributeOverrides({
@@ -26,6 +28,7 @@ public class Checking extends Account{
 	})
 	private Money monthlyMaintenanceFee;
 	private Date creationDate;
+	@NotNull
 	private Status status;
 
 	/*
