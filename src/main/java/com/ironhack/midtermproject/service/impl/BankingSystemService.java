@@ -224,6 +224,14 @@ public class BankingSystemService implements IBankingSystemService {
 	**	WITHDRAW METHOD
 	 */
 
+
+	/*
+	**	withdraw method accepts an user, an account and an amount. It checks if the user and the account
+	**	exist and if they do, it checks if the user can withdraw that amount of money from that account.
+	**	Depending on the account type, if the money left is below a certain minimum, a penalty fee will
+	**	be charged.
+	**	fraudDetection method is called to avoid some cases of possible fraud.
+	 */
 	public void withdraw(Integer userId, Integer accountId, BigDecimal amount) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
 		Optional<Account> account = accountRepository.findById(accountId);
@@ -270,6 +278,11 @@ public class BankingSystemService implements IBankingSystemService {
 	**	DEPOSIT METHOD
 	 */
 
+	/*
+	**	deposit method accepts an user, an account and an amount. It checks if the user and the account
+	**	exist and if they do, the user can deposit that amount of money to that account.
+	**	fraudDetection method is called to avoid some cases of possible fraud.
+	 */
 	public void deposit(Integer userId, Integer accountId, BigDecimal amount) {
 		Optional<User> user = userRepository.findById(userId);
 		Optional<Account> account = accountRepository.findById(accountId);
@@ -293,6 +306,10 @@ public class BankingSystemService implements IBankingSystemService {
 	**	INTEREST METHODS
 	 */
 
+	/*
+	**	savingInterest method checks it a savings account should increase by a yearly interest its
+	**	balance.
+	 */
 	public void savingsInterest(Integer id) {
 		Optional<Savings> savings = savingsRepository.findById(id);
 
@@ -315,6 +332,10 @@ public class BankingSystemService implements IBankingSystemService {
 		}
 	}
 
+	/*
+	**	creditCardInterest method checks it a credit card account should increase by a yearly interest its
+	**	balance.
+	 */
 	public void creditCardInterest(Integer id) {
 		Optional<CreditCard> creditCard = creditCardRepository.findById(id);
 
@@ -341,6 +362,11 @@ public class BankingSystemService implements IBankingSystemService {
 	**	FRAUD DETECTION METHOD
 	 */
 
+	/*
+	**	fraudDetection method is called everytime there is a deposit, a withdrawal, or a transaction.
+	**	It first checks if more than two movements have been done in a certain account in less than a second.
+	**	Then it checks if the total amount of transactions is over a 150% of a daily highest transaction count.
+	 */
 	public void fraudDetection(Transaction transaction) {
 		List<Transaction> transactionList = transactionRepository.findByAccountId(transaction.getAccountId());
 

@@ -82,7 +82,7 @@ public class Transaction {
 
 	public static void setHighestDailyTotalTransactions() {
 		if (Transaction.highestDailyTotalTransactions == null) {
-			Transaction.highestDailyTotalTransactions = 4;
+			Transaction.highestDailyTotalTransactions = 100;
 		}
 	}
 }

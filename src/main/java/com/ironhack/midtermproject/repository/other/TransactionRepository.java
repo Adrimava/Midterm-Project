@@ -13,7 +13,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
 	List<Transaction> findByAccountId(Integer accountId);
 
-//	@Query("SELECT sectionId, COUNT(*) FROM Grade GROUP BY sectionId")
-//	@Query("SELECT COUNT(*) FROM Transaction W")
 	List<Transaction> findByDateBetween(Long date1, Long date2);
 }
