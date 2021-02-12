@@ -78,6 +78,7 @@ public class BankingSystemController implements IBankingSystemController {
 		Date date1 = sdf.parse("10-10-2019");
 		savings1.setLastModificationDate(date1);
 		creditCard1.setLastModificationDate(date1);
+		BigDecimal amount = new BigDecimal("100");
 
 
 		accountHolderRepository.save(accountHolder1);
@@ -90,6 +91,11 @@ public class BankingSystemController implements IBankingSystemController {
 		savingsRepository.save(savings2);
 		studentCheckingRepository.save(studentChecking1);
 		studentCheckingRepository.save(studentChecking2);
+
+
+		bankingSystemService.deposit(2, 2, amount);
+		bankingSystemService.deposit(1, 1, amount);
+		bankingSystemService.deposit(1, 1, amount);
 	}
 
 	/*

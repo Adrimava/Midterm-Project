@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -341,14 +342,14 @@ public class BankingSystemService implements IBankingSystemService {
 	 */
 
 	public void fraudDetection(Transaction transaction) {
-		Optional<Transaction> previousTransaction;
+		List<Transaction> transactionList = transactionRepository.findByAccountId(transaction.getAccountId());
 
-		previousTransaction = transactionRepository.findById(transaction.getTransactionId() - 2);
-		if (previousTransaction.isPresent()) {
-			long difference = Math.abs(transaction.getDate().getTime() -
-					previousTransaction.get().getDate().getTime());
+		if (transactionList.size() > 2) {
+			Transaction previousTransaction = transactionList.get(transactionList.size() - 3);
+			long difference = Math.abs(transaction.getDate().getTime() - previousTransaction.getDate().getTime());
 			if (difference < 1000)
 				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This transaction may be fraudulent.");
 		}
 	}
+
 }
