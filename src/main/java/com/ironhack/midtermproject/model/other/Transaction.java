@@ -1,5 +1,6 @@
 package com.ironhack.midtermproject.model.other;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.midtermproject.Money;
 
 import javax.persistence.Entity;
@@ -16,7 +17,9 @@ public class Transaction {
 	private Integer userId;
 	private Integer accountId;
 	private Money money;
-	private Date date;
+	private Long date;
+	@JsonIgnore
+	private static Integer highestDailyTotalTransactions;
 
 	public Transaction() {
 	}
@@ -25,7 +28,8 @@ public class Transaction {
 		setUserId(userId);
 		setAccountId(accountId);
 		setMoney(money);
-		setDate(new Date());
+		setDate(new Date().getTime());
+		setHighestDailyTotalTransactions();
 	}
 
 	public Integer getTransactionId() {
@@ -60,11 +64,21 @@ public class Transaction {
 		this.money = money;
 	}
 
-	public Date getDate() {
+	public Long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Long date) {
 		this.date = date;
+	}
+
+	public static Integer getHighestDailyTotalTransactions() {
+		return highestDailyTotalTransactions;
+	}
+
+	public static void setHighestDailyTotalTransactions() {
+		if (Transaction.highestDailyTotalTransactions == null) {
+			Transaction.highestDailyTotalTransactions = 4;
+		}
 	}
 }

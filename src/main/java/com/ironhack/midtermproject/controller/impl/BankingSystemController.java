@@ -93,9 +93,13 @@ public class BankingSystemController implements IBankingSystemController {
 		studentCheckingRepository.save(studentChecking2);
 
 
-		bankingSystemService.deposit(2, 2, amount);
-		bankingSystemService.deposit(1, 1, amount);
-		bankingSystemService.deposit(1, 1, amount);
+		bankingSystemService.withdraw(1, 1, amount);
+		bankingSystemService.withdraw(1, 1, amount);
+		bankingSystemService.withdraw(1, 1, amount);
+		bankingSystemService.withdraw(1, 1, amount);
+		bankingSystemService.withdraw(1, 1, amount);
+		bankingSystemService.withdraw(1, 1, amount);
+		bankingSystemService.withdraw(2, 2, amount);
 	}
 
 	/*
