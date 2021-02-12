@@ -3,6 +3,7 @@ package com.ironhack.midtermproject.service.impl;
 import com.ironhack.midtermproject.Money;
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.SavingsDTO;
+import com.ironhack.midtermproject.controller.dto.CheckingDTO;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.*;
@@ -96,21 +97,22 @@ public class BankingSystemService implements IBankingSystemService {
 	**	CREATE METHODS
 	 */
 
-	public void createChecking(Integer id, BigDecimal balance, String secretKey, String status) {
-		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(id);
+	public void createChecking(CheckingDTO checkingDTO) {
+		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(checkingDTO.getUserId());
 
 		if (accountHolder.isPresent()) {
 			LocalDate birthdate = accountHolder.get().getBirthDate();
 			long years = ChronoUnit.YEARS.between(birthdate, LocalDate.now());
-			Money money = new Money(balance);
-			if (!status.equalsIgnoreCase("ACTIVE") && !status.equalsIgnoreCase("FROZEN")) {
+			Money money = new Money(checkingDTO.getBalance());
+			if (!checkingDTO.getStatus().equalsIgnoreCase("ACTIVE") &&
+					!checkingDTO.getStatus().equalsIgnoreCase("FROZEN")) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status must be either Active or Frozen");
 			}
-			Status s = Status.valueOf(status.toUpperCase());
+			Status s = Status.valueOf(checkingDTO.getStatus().toUpperCase());
 			if (years >= 24) {
-				checkingRepository.save(new Checking(money, accountHolder.get(), secretKey, s));
+				checkingRepository.save(new Checking(money, accountHolder.get(), checkingDTO.getSecretKey(), s));
 			} else {
-				studentCheckingRepository.save(new StudentChecking(money, accountHolder.get(), secretKey, s));
+				studentCheckingRepository.save(new StudentChecking(money, accountHolder.get(), checkingDTO.getSecretKey(), s));
 			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary Owner not found.");
@@ -155,6 +157,22 @@ public class BankingSystemService implements IBankingSystemService {
 			savings.setMinimumBalance(new Money(minimumBalance));
 			savings.setInterestRate(interestRate);
 			return savingsRepository.save(savings);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+		}
+	}
+
+	public StudentChecking createStudentChecking(CheckingDTO studentCheckingDTO) {
+		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(studentCheckingDTO.getUserId());
+
+		if (accountHolder.isPresent()) {
+			if (!studentCheckingDTO.getStatus().equalsIgnoreCase("ACTIVE") &&
+					!studentCheckingDTO.getStatus().equalsIgnoreCase("FROZEN")) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status must be either Active or Frozen");
+			}
+			StudentChecking studentChecking = new StudentChecking(new Money(studentCheckingDTO.getBalance()), accountHolder.get(),
+					studentCheckingDTO.getSecretKey(), Status.valueOf(studentCheckingDTO.getStatus().toUpperCase()));
+			return studentCheckingRepository.save(studentChecking);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 		}

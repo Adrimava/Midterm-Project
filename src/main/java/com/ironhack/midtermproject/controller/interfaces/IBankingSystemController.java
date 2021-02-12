@@ -3,11 +3,11 @@ package com.ironhack.midtermproject.controller.interfaces;
 import com.ironhack.midtermproject.controller.dto.AmountDTO;
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.SavingsDTO;
+import com.ironhack.midtermproject.controller.dto.CheckingDTO;
 import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,12 +25,10 @@ public interface IBankingSystemController {
 	Optional<Savings> findSavingsById(Integer id);
 	Optional<StudentChecking> findStudentCheckingById(Integer id);
 
-	Checking createChecking(Checking checking);
+	void createChecking(CheckingDTO CheckingDTO);
 	CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit, BigDecimal interestRate);
 	Savings createSavings(SavingsDTO creditCardDTO, BigDecimal minimumBalance, BigDecimal interestRate);
-	StudentChecking createStudentChecking(StudentChecking studentChecking);
-
-	void createChecking(Integer id, BigDecimal balance, String secretKey, String status);
+	StudentChecking createStudentChecking(CheckingDTO studentCheckingDTO);
 
 	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);

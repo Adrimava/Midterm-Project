@@ -4,6 +4,7 @@ import com.ironhack.midtermproject.Money;
 import com.ironhack.midtermproject.controller.dto.AmountDTO;
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.SavingsDTO;
+import com.ironhack.midtermproject.controller.dto.CheckingDTO;
 import com.ironhack.midtermproject.controller.interfaces.IBankingSystemController;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
@@ -152,8 +153,8 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/checking")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Checking createChecking(@RequestBody @Valid Checking checking) {
-		return checkingRepository.save(checking);
+	public void createChecking(@RequestBody @Valid CheckingDTO CheckingDTO) {
+		bankingSystemService.createChecking(CheckingDTO);
 	}
 
 	@PostMapping("/credit-card")
@@ -174,15 +175,8 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/student-checking")
 	@ResponseStatus(HttpStatus.CREATED)
-	public StudentChecking createStudentChecking(@RequestBody @Valid StudentChecking studentChecking) {
-		return studentCheckingRepository.save(studentChecking);
-	}
-
-	@PostMapping("/checking/create/{id}/{balance}/{secretKey}/{status}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void createChecking(@PathVariable Integer id, @PathVariable BigDecimal balance,
-							   @PathVariable String secretKey, @PathVariable String status) {
-		bankingSystemService.createChecking(id,balance,secretKey,status);
+	public StudentChecking createStudentChecking(@RequestBody @Valid CheckingDTO studentCheckingDTO) {
+		return bankingSystemService.createStudentChecking(studentCheckingDTO);
 	}
 
 	/*
