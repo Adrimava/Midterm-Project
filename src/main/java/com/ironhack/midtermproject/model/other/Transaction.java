@@ -76,6 +76,10 @@ public class Transaction {
 		return highestDailyTotalTransactions;
 	}
 
+	public static void setHighestDailyTotalTransactions(Integer highestDailyTotalTransactions) {
+		Transaction.highestDailyTotalTransactions = highestDailyTotalTransactions;
+	}
+
 	public static void setHighestDailyTotalTransactions() {
 		if (Transaction.highestDailyTotalTransactions == null) {
 			Transaction.highestDailyTotalTransactions = 4;

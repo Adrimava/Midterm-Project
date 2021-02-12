@@ -348,14 +348,17 @@ public class BankingSystemService implements IBankingSystemService {
 			Transaction previousTransaction = transactionList.get(transactionList.size() - 3);
 			long difference = Math.abs(transaction.getDate() - previousTransaction.getDate());
 			if (difference < 1000)
-				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This transaction may be fraudulent.");
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+						"This transaction may be fraudulent. Cause: More than two transactions per second.");
 		}
 
 		Long now = transaction.getDate();
 		Long then = (now - 1000 * 60 * 60 * 24);
 		transactionList = transactionRepository.findByDateBetween(then, now);
-		if (transactionList.size() > Transaction.getHighestDailyTotalTransactions() * 1.5)
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This transaction may be fraudulent.");
+		if (transactionList.size() > Transaction.getHighestDailyTotalTransactions() * 1.5) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+					"This transaction may be fraudulent. Cause: Unusual amount of transactions in last 24h period.");
+		}
 	}
 
 }
