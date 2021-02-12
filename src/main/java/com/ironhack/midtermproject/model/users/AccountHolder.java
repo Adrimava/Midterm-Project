@@ -38,6 +38,7 @@ public class AccountHolder extends User {
 		setBirthDate(birthDate);
 		setAddress(address);
 		setEmail(email);
+		setRole("ACCOUNTHOLDER");
 	}
 
 	/*

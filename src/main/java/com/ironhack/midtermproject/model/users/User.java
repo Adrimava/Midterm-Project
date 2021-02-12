@@ -9,6 +9,7 @@ public abstract class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer userId;
 	protected String name;
+	protected String role;
 
 	/*
 	**	CONSTRUCTORS
@@ -39,5 +40,13 @@ public abstract class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

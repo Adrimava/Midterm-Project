@@ -241,7 +241,7 @@ class BankingSystemControllerTest {
 
 		String body = objectMapper.writeValueAsString(amountDTO);
 		MvcResult result = mockMvc.perform(
-				patch("/deposit/1/1/2")
+				patch("/transaction/1/1/2")
 						.content(body)
 						.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isNoContent()).andReturn();
