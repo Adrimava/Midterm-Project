@@ -33,4 +33,5 @@ public interface IBankingSystemController {
 
 	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);
+	void transaction(Integer userId, Integer accountToWithdrawId, Integer accountToDepositId, AmountDTO amountDTO);
 }

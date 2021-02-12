@@ -203,4 +203,12 @@ public class BankingSystemController implements IBankingSystemController {
 						 @RequestBody @Valid AmountDTO amountDTO) {
 		bankingSystemService.deposit(userId, accountId, amountDTO.getAmount());
 	}
+
+	@PatchMapping("/transaction/{userId}/{accountToWithdrawId}/{accountToDepositId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void transaction(@PathVariable Integer userId, @PathVariable Integer accountToWithdrawId,
+						@PathVariable Integer accountToDepositId ,@RequestBody @Valid AmountDTO amountDTO) {
+		bankingSystemService.withdraw(userId, accountToWithdrawId, amountDTO.getAmount());
+		bankingSystemService.deposit(userId, accountToDepositId, amountDTO.getAmount());
+	}
 }
