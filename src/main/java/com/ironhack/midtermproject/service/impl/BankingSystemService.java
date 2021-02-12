@@ -7,9 +7,11 @@ import com.ironhack.midtermproject.controller.dto.CheckingDTO;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.*;
+import com.ironhack.midtermproject.model.other.Transaction;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 import com.ironhack.midtermproject.model.users.User;
 import com.ironhack.midtermproject.repository.accounts.*;
+import com.ironhack.midtermproject.repository.other.TransactionRepository;
 import com.ironhack.midtermproject.repository.users.AccountHolderRepository;
 import com.ironhack.midtermproject.repository.users.AdminRepository;
 import com.ironhack.midtermproject.repository.users.ThirdPartyRepository;
@@ -48,6 +50,8 @@ public class BankingSystemService implements IBankingSystemService {
 	private AdminRepository adminRepository;
 	@Autowired
 	private ThirdPartyRepository thirdPartyRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	/*
 	**	FIND METHODS
@@ -127,7 +131,8 @@ public class BankingSystemService implements IBankingSystemService {
 				}
 				checkingRepository.save(checking);
 			} else {
-				StudentChecking studentChecking = new StudentChecking(money, accountHolder.get(), checkingDTO.getSecretKey(), status);
+				StudentChecking studentChecking = new StudentChecking(
+						money, accountHolder.get(), checkingDTO.getSecretKey(), status);
 				if (secondaryOwnerId.isPresent()) {
 					Optional<AccountHolder> secondaryOwner = accountHolderRepository.findById(secondaryOwnerId.get());
 					if (secondaryOwner.isPresent()) {
@@ -230,19 +235,24 @@ public class BankingSystemService implements IBankingSystemService {
 					account.get().getBalance().decreaseAmount(amount);
 					if (account.get().getAccountType().equals(AccountType.CHECKING)) {
 						Optional<Checking> checking = checkingRepository.findById(accountId);
-						if (checking.get().getBalance().getAmount().compareTo(checking.get().getMinimumBalance().getAmount()) < 0) {
+						if (checking.get().getBalance().getAmount().compareTo(
+								checking.get().getMinimumBalance().getAmount()) < 0) {
 							checking.get().getBalance().decreaseAmount(checking.get().getPenaltyFee());
 						}
 					}
 					else if (account.get().getAccountType().equals(AccountType.SAVINGS)) {
 						savingsInterest(accountId);
 						Optional<Savings> savings = savingsRepository.findById(accountId);
-						if (savings.get().getBalance().getAmount().compareTo(savings.get().getMinimumBalance().getAmount()) < 0) {
+						if (savings.get().getBalance().getAmount().compareTo(
+								savings.get().getMinimumBalance().getAmount()) < 0) {
 							savings.get().getBalance().decreaseAmount(savings.get().getPenaltyFee());
 						}
 					} else if (account.get().getAccountType().equals(AccountType.CREDIT_CARD)) {
 						creditCardInterest(accountId);
 					}
+					Transaction transaction = transactionRepository.save(
+							new Transaction(userId, accountId, new Money(amount.negate())));
+					fraudDetection(transaction);
 					accountRepository.save(account.get());
 				} else {
 					throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User cannot withdraw from that account.");
@@ -266,7 +276,10 @@ public class BankingSystemService implements IBankingSystemService {
 		if (user.isPresent()) {
 			if (account.isPresent()) {
 				account.get().getBalance().increaseAmount(amount);
-					accountRepository.save(account.get());
+				Transaction transaction = transactionRepository.save(
+						new Transaction(userId, accountId, new Money(amount.negate())));
+				fraudDetection(transaction);
+				accountRepository.save(account.get());
 			} else {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
 			}
@@ -320,6 +333,22 @@ public class BankingSystemService implements IBankingSystemService {
 			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
+		}
+	}
+
+	/*
+	**	FRAUD DETECTION METHOD
+	 */
+
+	public void fraudDetection(Transaction transaction) {
+		Optional<Transaction> previousTransaction;
+
+		previousTransaction = transactionRepository.findById(transaction.getTransactionId() - 2);
+		if (previousTransaction.isPresent()) {
+			long difference = Math.abs(transaction.getDate().getTime() -
+					previousTransaction.get().getDate().getTime());
+			if (difference < 1000)
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This transaction may be fraudulent.");
 		}
 	}
 }

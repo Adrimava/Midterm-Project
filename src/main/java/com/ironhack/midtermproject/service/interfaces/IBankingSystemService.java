@@ -8,6 +8,7 @@ import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
+import com.ironhack.midtermproject.model.other.Transaction;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -29,4 +30,6 @@ public interface IBankingSystemService {
 
 	void savingsInterest(Integer id);
 	void creditCardInterest(Integer id);
+
+	void fraudDetection(Transaction transaction);
 }
