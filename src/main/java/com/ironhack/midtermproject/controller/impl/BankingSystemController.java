@@ -153,30 +153,27 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/checking")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createChecking(@RequestBody @Valid CheckingDTO CheckingDTO) {
-		bankingSystemService.createChecking(CheckingDTO);
+	public void createChecking(@RequestBody @Valid CheckingDTO CheckingDTO,
+							   @RequestParam Optional<Integer> secondaryOwner) {
+		bankingSystemService.createChecking(CheckingDTO, secondaryOwner);
 	}
 
 	@PostMapping("/credit-card")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CreditCard createCreditCard(@RequestBody @Valid CreditCardDTO creditCardDTO,
+									   @RequestParam Optional<Integer> secondaryOwner,
 									   @RequestParam(defaultValue = "100") BigDecimal creditLimit,
 									   @RequestParam(defaultValue = "0.2") BigDecimal interestRate) {
-		return bankingSystemService.createCreditCard(creditCardDTO, creditLimit, interestRate);
+		return bankingSystemService.createCreditCard(creditCardDTO, creditLimit, interestRate, secondaryOwner);
 	}
 
 	@PostMapping("/savings")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Savings createSavings(@RequestBody @Valid SavingsDTO savingsDTO,
+								 @RequestParam Optional<Integer> secondaryOwner,
 								 @RequestParam(defaultValue = "1000") BigDecimal minimumBalance,
 								 @RequestParam(defaultValue = "0.0025") BigDecimal interestRate) {
-		return bankingSystemService.createSavings(savingsDTO, minimumBalance, interestRate);
-	}
-
-	@PostMapping("/student-checking")
-	@ResponseStatus(HttpStatus.CREATED)
-	public StudentChecking createStudentChecking(@RequestBody @Valid CheckingDTO studentCheckingDTO) {
-		return bankingSystemService.createStudentChecking(studentCheckingDTO);
+		return bankingSystemService.createSavings(savingsDTO, minimumBalance, interestRate, secondaryOwner);
 	}
 
 	/*

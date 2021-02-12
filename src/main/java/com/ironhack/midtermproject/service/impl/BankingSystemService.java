@@ -97,7 +97,13 @@ public class BankingSystemService implements IBankingSystemService {
 	**	CREATE METHODS
 	 */
 
-	public void createChecking(CheckingDTO checkingDTO) {
+	/*
+	**	createChecking method validates the inputs, and if they are correct, it creates either a
+	**	student checking account if the account holder is less than 24 years old, or a checking account
+	**	otherwise. It also checks for the optional parameters (secondary owner), and if it exists, it will
+	**	be set inside the created account.
+	 */
+	public void createChecking(CheckingDTO checkingDTO, Optional<Integer> secondaryOwnerId) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(checkingDTO.getUserId());
 
 		if (accountHolder.isPresent()) {
@@ -108,18 +114,42 @@ public class BankingSystemService implements IBankingSystemService {
 					!checkingDTO.getStatus().equalsIgnoreCase("FROZEN")) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status must be either Active or Frozen");
 			}
-			Status s = Status.valueOf(checkingDTO.getStatus().toUpperCase());
+			Status status = Status.valueOf(checkingDTO.getStatus().toUpperCase());
 			if (years >= 24) {
-				checkingRepository.save(new Checking(money, accountHolder.get(), checkingDTO.getSecretKey(), s));
+				Checking checking = new Checking(money, accountHolder.get(), checkingDTO.getSecretKey(), status);
+				if (secondaryOwnerId.isPresent()) {
+					Optional<AccountHolder> secondaryOwner = accountHolderRepository.findById(secondaryOwnerId.get());
+					if (secondaryOwner.isPresent()) {
+						checking.setSecondaryOwner(secondaryOwner.get());
+					} else {
+						throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary Owner not found.");
+					}
+				}
+				checkingRepository.save(checking);
 			} else {
-				studentCheckingRepository.save(new StudentChecking(money, accountHolder.get(), checkingDTO.getSecretKey(), s));
+				StudentChecking studentChecking = new StudentChecking(money, accountHolder.get(), checkingDTO.getSecretKey(), status);
+				if (secondaryOwnerId.isPresent()) {
+					Optional<AccountHolder> secondaryOwner = accountHolderRepository.findById(secondaryOwnerId.get());
+					if (secondaryOwner.isPresent()) {
+						studentChecking.setSecondaryOwner(secondaryOwner.get());
+					} else {
+						throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary Owner not found.");
+					}
+				}
+				studentCheckingRepository.save(studentChecking);
 			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary Owner not found.");
 		}
 	}
 
-	public CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit, BigDecimal interestRate) {
+	/*
+	**	createCreditCard method validates the inputs, and if they are correct, it creates a
+	**	credit card account. It also checks for the optional parameters (secondary owner,
+	**	credit limit and interestRate),	and if they exist, they will be set inside the created account.
+	 */
+	public CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit,
+									   BigDecimal interestRate, Optional<Integer> secondaryOwnerId) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(creditCardDTO.getUserId());
 
 		if (accountHolder.isPresent()) {
@@ -132,13 +162,27 @@ public class BankingSystemService implements IBankingSystemService {
 			CreditCard creditCard = new CreditCard(new Money(creditCardDTO.getMoney()), accountHolder.get());
 			creditCard.setCreditLimit(new Money(creditLimit));
 			creditCard.setInterestRate(interestRate);
+			if (secondaryOwnerId.isPresent()) {
+				Optional<AccountHolder> secondaryOwner = accountHolderRepository.findById(secondaryOwnerId.get());
+				if (secondaryOwner.isPresent()) {
+					creditCard.setSecondaryOwner(secondaryOwner.get());
+				} else {
+					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary Owner not found.");
+				}
+			}
 			return creditCardRepository.save(creditCard);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 		}
 	}
 
-	public Savings createSavings(SavingsDTO savingsDTO, BigDecimal minimumBalance, BigDecimal interestRate) {
+	/*
+	**	createSavings method validates the inputs, and if they are correct, it creates a
+	**	savings account. It also checks for the optional parameters (secondary owner,
+	**	minimum balance and interestRate), and if they exist, they will be set inside the created account.
+	 */
+	public Savings createSavings(SavingsDTO savingsDTO, BigDecimal minimumBalance,
+								 BigDecimal interestRate, Optional<Integer> secondaryOwnerId) {
 		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(savingsDTO.getUserId());
 
 		if (accountHolder.isPresent()) {
@@ -156,23 +200,15 @@ public class BankingSystemService implements IBankingSystemService {
 					savingsDTO.getSecretKey(), Status.valueOf(savingsDTO.getStatus().toUpperCase()));
 			savings.setMinimumBalance(new Money(minimumBalance));
 			savings.setInterestRate(interestRate);
-			return savingsRepository.save(savings);
-		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
-		}
-	}
-
-	public StudentChecking createStudentChecking(CheckingDTO studentCheckingDTO) {
-		Optional<AccountHolder> accountHolder = accountHolderRepository.findById(studentCheckingDTO.getUserId());
-
-		if (accountHolder.isPresent()) {
-			if (!studentCheckingDTO.getStatus().equalsIgnoreCase("ACTIVE") &&
-					!studentCheckingDTO.getStatus().equalsIgnoreCase("FROZEN")) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status must be either Active or Frozen");
+			if (secondaryOwnerId.isPresent()) {
+				Optional<AccountHolder> secondaryOwner = accountHolderRepository.findById(secondaryOwnerId.get());
+				if (secondaryOwner.isPresent()) {
+					savings.setSecondaryOwner(secondaryOwner.get());
+				} else {
+					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary Owner not found.");
+				}
 			}
-			StudentChecking studentChecking = new StudentChecking(new Money(studentCheckingDTO.getBalance()), accountHolder.get(),
-					studentCheckingDTO.getSecretKey(), Status.valueOf(studentCheckingDTO.getStatus().toUpperCase()));
-			return studentCheckingRepository.save(studentChecking);
+			return savingsRepository.save(savings);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 		}

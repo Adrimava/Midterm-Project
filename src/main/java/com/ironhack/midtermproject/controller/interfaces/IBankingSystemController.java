@@ -25,10 +25,11 @@ public interface IBankingSystemController {
 	Optional<Savings> findSavingsById(Integer id);
 	Optional<StudentChecking> findStudentCheckingById(Integer id);
 
-	void createChecking(CheckingDTO CheckingDTO);
-	CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit, BigDecimal interestRate);
-	Savings createSavings(SavingsDTO creditCardDTO, BigDecimal minimumBalance, BigDecimal interestRate);
-	StudentChecking createStudentChecking(CheckingDTO studentCheckingDTO);
+	void createChecking(CheckingDTO CheckingDTO, Optional<Integer> secondaryOwner);
+	CreditCard createCreditCard(CreditCardDTO creditCardDTO, Optional<Integer> secondaryOwner,
+								BigDecimal creditLimit, BigDecimal interestRate);
+	Savings createSavings(SavingsDTO creditCardDTO, Optional<Integer> secondaryOwner,
+						  BigDecimal minimumBalance, BigDecimal interestRate);
 
 	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);

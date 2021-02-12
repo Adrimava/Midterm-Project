@@ -18,10 +18,11 @@ public interface IBankingSystemService {
 	Optional<Savings> findSavingsById(Integer id);
 	Optional<StudentChecking> findStudentCheckingById(Integer id);
 
-	void createChecking(CheckingDTO CheckingDTO);
-	CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit, BigDecimal interestRate);
-	Savings createSavings(SavingsDTO savingsDTO, BigDecimal minimumBalance, BigDecimal interestRate);
-	StudentChecking createStudentChecking(CheckingDTO studentCheckingDTO);
+	void createChecking(CheckingDTO CheckingDTO, Optional<Integer> secondaryOwnerId);
+	CreditCard createCreditCard(CreditCardDTO creditCardDTO, BigDecimal creditLimit,
+								BigDecimal interestRate, Optional<Integer> secondaryOwnerId);
+	Savings createSavings(SavingsDTO savingsDTO, BigDecimal minimumBalance, BigDecimal interestRate,
+						  Optional<Integer> secondaryOwnerId);
 
 	void withdraw(Integer userId, Integer accountId, BigDecimal amount);
 	void deposit(Integer userId, Integer accountId, BigDecimal amount);
