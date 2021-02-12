@@ -241,28 +241,31 @@ public class BankingSystemService implements IBankingSystemService {
 				if (account.get().getPrimaryOwner().getId().equals(accountHolder.get().getId()) ||
 						(account.get().getSecondaryOwner() != null &&
 						account.get().getSecondaryOwner().getId().equals(accountHolder.get().getId()))) {
-					account.get().getBalance().decreaseAmount(amount);
-					if (account.get().getAccountType().equals(AccountType.CHECKING)) {
-						Optional<Checking> checking = checkingRepository.findById(accountId);
-						if (checking.get().getBalance().getAmount().compareTo(
-								checking.get().getMinimumBalance().getAmount()) < 0) {
-							checking.get().getBalance().decreaseAmount(checking.get().getPenaltyFee());
+					if (amount.compareTo(account.get().getBalance().getAmount()) < 0) {
+						account.get().getBalance().decreaseAmount(amount);
+						if (account.get().getAccountType().equals(AccountType.CHECKING)) {
+							Optional<Checking> checking = checkingRepository.findById(accountId);
+							if (checking.get().getBalance().getAmount().compareTo(
+									checking.get().getMinimumBalance().getAmount()) < 0) {
+								checking.get().getBalance().decreaseAmount(checking.get().getPenaltyFee());
+							}
+						} else if (account.get().getAccountType().equals(AccountType.SAVINGS)) {
+							savingsInterest(accountId);
+							Optional<Savings> savings = savingsRepository.findById(accountId);
+							if (savings.get().getBalance().getAmount().compareTo(
+									savings.get().getMinimumBalance().getAmount()) < 0) {
+								savings.get().getBalance().decreaseAmount(savings.get().getPenaltyFee());
+							}
+						} else if (account.get().getAccountType().equals(AccountType.CREDIT_CARD)) {
+							creditCardInterest(accountId);
 						}
+						Transaction transaction = transactionRepository.save(
+								new Transaction(userId, accountId, new Money(amount.negate())));
+						fraudDetection(transaction);
+						accountRepository.save(account.get());
+					} else {
+						throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not enough balance in that account.");
 					}
-					else if (account.get().getAccountType().equals(AccountType.SAVINGS)) {
-						savingsInterest(accountId);
-						Optional<Savings> savings = savingsRepository.findById(accountId);
-						if (savings.get().getBalance().getAmount().compareTo(
-								savings.get().getMinimumBalance().getAmount()) < 0) {
-							savings.get().getBalance().decreaseAmount(savings.get().getPenaltyFee());
-						}
-					} else if (account.get().getAccountType().equals(AccountType.CREDIT_CARD)) {
-						creditCardInterest(accountId);
-					}
-					Transaction transaction = transactionRepository.save(
-							new Transaction(userId, accountId, new Money(amount.negate())));
-					fraudDetection(transaction);
-					accountRepository.save(account.get());
 				} else {
 					throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User cannot withdraw from that account.");
 				}

@@ -94,11 +94,11 @@ public class BankingSystemController implements IBankingSystemController {
 
 
 		bankingSystemService.withdraw(1, 1, amount);
-		bankingSystemService.withdraw(1, 1, amount);
-		bankingSystemService.withdraw(1, 1, amount);
-		bankingSystemService.withdraw(1, 1, amount);
-		bankingSystemService.withdraw(1, 1, amount);
-		bankingSystemService.withdraw(1, 1, amount);
+//		bankingSystemService.withdraw(1, 1, amount);
+//		bankingSystemService.withdraw(1, 1, amount);
+//		bankingSystemService.withdraw(1, 1, amount);
+//		bankingSystemService.withdraw(1, 1, amount);
+//		bankingSystemService.withdraw(1, 1, amount);
 		bankingSystemService.withdraw(2, 2, amount);
 	}
 
