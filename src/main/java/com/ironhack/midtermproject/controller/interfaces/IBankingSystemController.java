@@ -1,14 +1,14 @@
 package com.ironhack.midtermproject.controller.interfaces;
 
-import com.ironhack.midtermproject.controller.dto.AmountDTO;
-import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
-import com.ironhack.midtermproject.controller.dto.SavingsDTO;
-import com.ironhack.midtermproject.controller.dto.CheckingDTO;
+import com.ironhack.midtermproject.controller.dto.*;
 import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -34,4 +34,5 @@ public interface IBankingSystemController {
 	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void transaction(Integer userId, Integer accountToWithdrawId, Integer accountToDepositId, AmountDTO amountDTO);
+	void modify(Integer accountId, BalanceDTO balanceDTO);
 }

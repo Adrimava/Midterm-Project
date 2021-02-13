@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.service.interfaces;
 
 
+import com.ironhack.midtermproject.controller.dto.BalanceDTO;
 import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.SavingsDTO;
 import com.ironhack.midtermproject.controller.dto.CheckingDTO;
@@ -9,7 +10,10 @@ import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
 import com.ironhack.midtermproject.model.other.Transaction;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -27,6 +31,7 @@ public interface IBankingSystemService {
 
 	void withdraw(Integer userId, Integer accountId, BigDecimal amount);
 	void deposit(Integer userId, Integer accountId, BigDecimal amount);
+	void modify(Integer accountId, BigDecimal amount);
 
 	void savingsInterest(Integer id);
 	void creditCardInterest(Integer id);

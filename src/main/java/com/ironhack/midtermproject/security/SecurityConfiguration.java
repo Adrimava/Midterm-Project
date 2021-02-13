@@ -44,9 +44,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("/credit-card/**").hasRole("ADMIN")
 				.mvcMatchers("/savings/**").hasRole("ADMIN")
 				.mvcMatchers("/student-checking/**").hasRole("ADMIN")
-				.mvcMatchers("/withdraw/**").hasAnyRole("ADMIN", "ACCOUNTHOLDER")
-				.mvcMatchers("/deposit/**").hasAnyRole("ADMIN", "ACCOUNTHOLDER")
-				.mvcMatchers("/transaction/**").hasAnyRole("ADMIN", "ACCOUNTHOLDER")
+				.mvcMatchers("/withdraw/**").hasRole("ACCOUNTHOLDER")
+				.mvcMatchers("/deposit/**").hasRole("ACCOUNTHOLDER")
+				.mvcMatchers("/transaction/**").hasRole("ACCOUNTHOLDER")
 				.mvcMatchers("/say-hello").authenticated()
 				.anyRequest().permitAll();
 	}

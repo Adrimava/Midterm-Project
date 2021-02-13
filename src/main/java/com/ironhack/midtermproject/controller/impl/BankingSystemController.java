@@ -1,10 +1,7 @@
 package com.ironhack.midtermproject.controller.impl;
 
 import com.ironhack.midtermproject.Money;
-import com.ironhack.midtermproject.controller.dto.AmountDTO;
-import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
-import com.ironhack.midtermproject.controller.dto.SavingsDTO;
-import com.ironhack.midtermproject.controller.dto.CheckingDTO;
+import com.ironhack.midtermproject.controller.dto.*;
 import com.ironhack.midtermproject.controller.interfaces.IBankingSystemController;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
@@ -13,6 +10,7 @@ import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
 import com.ironhack.midtermproject.model.other.Address;
 import com.ironhack.midtermproject.model.users.AccountHolder;
+import com.ironhack.midtermproject.model.users.Admin;
 import com.ironhack.midtermproject.repository.accounts.CheckingRepository;
 import com.ironhack.midtermproject.repository.accounts.CreditCardRepository;
 import com.ironhack.midtermproject.repository.accounts.SavingsRepository;
@@ -66,6 +64,7 @@ public class BankingSystemController implements IBankingSystemController {
 		LocalDate localDate2 = LocalDate.of(2000, 5, 5);
 		AccountHolder accountHolder1 = new AccountHolder("Jose", localDate1, address1);
 		AccountHolder accountHolder2 = new AccountHolder("Manuela", localDate2, address2);
+		Admin admin = new Admin("admin");
 		Checking checking1 = new Checking(money1, accountHolder1, "secretKey", Status.ACTIVE);
 		Checking checking2 = new Checking(money2, accountHolder2, "password", Status.FROZEN);
 		CreditCard creditCard1 = new CreditCard(money1, accountHolder1);
@@ -103,7 +102,7 @@ public class BankingSystemController implements IBankingSystemController {
 	}
 
 	/*
-	**	GET MAPPINGS
+	**	GET MAPPINGS. For ADMIN only.
 	 */
 
 	@GetMapping("/checking")
@@ -158,7 +157,7 @@ public class BankingSystemController implements IBankingSystemController {
 	}
 
 	/*
-	**	POST MAPPINGS
+	**	POST MAPPINGS. For ADMIN only.
 	 */
 
 	@PostMapping("/checking")
@@ -190,6 +189,9 @@ public class BankingSystemController implements IBankingSystemController {
 	**	PATCH MAPPING
 	 */
 
+
+	//Following methods are for ACCOUNTHOLDER only.
+
 	@PatchMapping("/withdraw/{userId}/{accountId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void withdraw(@PathVariable Integer userId, @PathVariable Integer accountId,
@@ -210,5 +212,13 @@ public class BankingSystemController implements IBankingSystemController {
 						@PathVariable Integer accountToDepositId ,@RequestBody @Valid AmountDTO amountDTO) {
 		bankingSystemService.withdraw(userId, accountToWithdrawId, amountDTO.getAmount());
 		bankingSystemService.deposit(userId, accountToDepositId, amountDTO.getAmount());
+	}
+
+	//Following methods are for ADMIN only.
+
+	@PatchMapping("/modify/{accountId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void modify(@PathVariable Integer accountId, @RequestBody @Valid BalanceDTO balanceDTO) {
+		bankingSystemService.modify(accountId, balanceDTO.getAmount());
 	}
 }

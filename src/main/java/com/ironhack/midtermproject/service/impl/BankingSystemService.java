@@ -306,6 +306,25 @@ public class BankingSystemService implements IBankingSystemService {
 	}
 
 	/*
+	**	MODIFY METHOD
+	 */
+
+	/*
+	**	modify method accepts an account and an amount. It checks if the account
+	**	exist and if it does, the admin can modify that amount of money in that account.
+	 */
+	public void modify(Integer accountId, BigDecimal amount) {
+		Optional<Account> account = accountRepository.findById(accountId);
+
+		if (account.isPresent()) {
+			account.get().getBalance().increaseAmount(amount);
+			accountRepository.save(account.get());
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
+		}
+	}
+
+	/*
 	**	INTEREST METHODS
 	 */
 
