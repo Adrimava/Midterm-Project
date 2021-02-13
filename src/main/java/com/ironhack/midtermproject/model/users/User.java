@@ -21,7 +21,7 @@ public abstract class User {
 
 	public User(String name) {
 		this.name = name;
-		this.password = "$2a$10$h9oQ5PN65O53R1btkIJu7OWPsWIvfeoZd0RaUfGOTaQJZDl306XSG";
+		this.password = "$2a$10$h9oQ5PN65O53R1btkIJu7OWPsWIvfeoZd0RaUfGOTaQJZDl306XSG"; //Password: 123456
 	}
 
 	/*

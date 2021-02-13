@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().ignoringAntMatchers("/account-holder/**");
 		http.csrf().ignoringAntMatchers("/admin/**");
 		http.csrf().ignoringAntMatchers("/third-party/**");
+		http.csrf().ignoringAntMatchers("/modify/**");
 		http.authorizeRequests()
 				.mvcMatchers("/checking/**").hasRole("ADMIN")
 				.mvcMatchers("/credit-card/**").hasRole("ADMIN")
@@ -50,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("/account-holder/**").hasRole("ADMIN")
 				.mvcMatchers("/admin/**").hasRole("ADMIN")
 				.mvcMatchers("/third-party/**").hasRole("ADMIN")
+				.mvcMatchers("/modify/**").hasRole("ADMIN")
 				.mvcMatchers("/withdraw/**").hasRole("ACCOUNTHOLDER")
 				.mvcMatchers("/deposit/**").hasRole("ACCOUNTHOLDER")
 				.mvcMatchers("/transaction/**").hasRole("ACCOUNTHOLDER")

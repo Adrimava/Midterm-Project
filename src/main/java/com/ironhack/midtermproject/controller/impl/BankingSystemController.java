@@ -192,20 +192,20 @@ public class BankingSystemController implements IBankingSystemController {
 
 	@PostMapping("/account-holder")
 	@ResponseStatus(HttpStatus.CREATED)
-	public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO,
+	public AccountHolder createAccountHolder(@RequestBody @Valid AccountHolderDTO accountHolderDTO,
 											 @RequestParam Optional<String> email) {
 		return bankingSystemService.createAccountHolder(accountHolderDTO, email);
 	}
 
 	@PostMapping("/admin")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Admin createAdmin(AdminDTO adminDTO) {
+	public Admin createAdmin(@RequestBody @Valid AdminDTO adminDTO) {
 		return bankingSystemService.createAdmin(adminDTO);
 	}
 
 	@PostMapping("/third-party")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ThirdParty createThirdParty(ThirdPartyDTO thirdPartyDTO) {
+	public ThirdParty createThirdParty(@RequestBody @Valid ThirdPartyDTO thirdPartyDTO) {
 		return bankingSystemService.createThirdParty(thirdPartyDTO);
 	}
 
