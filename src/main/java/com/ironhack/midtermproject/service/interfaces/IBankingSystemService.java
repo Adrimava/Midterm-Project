@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.service.interfaces;
 
 
+import com.ironhack.midtermproject.controller.dto.accounts.AccountDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.SavingsDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CheckingDTO;
@@ -37,6 +38,7 @@ public interface IBankingSystemService {
 	void withdraw(Integer userId, Integer accountId, BigDecimal amount);
 	void deposit(Integer userId, Integer accountId, BigDecimal amount);
 	void modify(Integer accountId, BigDecimal amount);
+	void thirdParty(AccountDTO accountDTO, String hashedKey);
 
 	void savingsInterest(Integer id);
 	void creditCardInterest(Integer id);

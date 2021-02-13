@@ -41,4 +41,5 @@ public interface IBankingSystemController {
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void transaction(Integer userId, Integer accountToWithdrawId, Integer accountToDepositId, AmountDTO amountDTO);
 	void modify(Integer accountId, BalanceDTO balanceDTO);
+	void thirdParty(AccountDTO accountDTO, String hashedKey);
 }

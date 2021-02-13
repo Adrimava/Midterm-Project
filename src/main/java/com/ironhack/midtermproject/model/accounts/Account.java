@@ -36,6 +36,7 @@ public abstract class Account {
 	@JsonIgnore
 	protected AccountType accountType;
 	protected Date creationDate;
+	protected String secretKey;
 
 	/*
 	**	CONSTRUCTORS
@@ -111,5 +112,13 @@ public abstract class Account {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public String getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
 	}
 }

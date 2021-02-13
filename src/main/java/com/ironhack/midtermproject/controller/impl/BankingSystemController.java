@@ -69,6 +69,7 @@ public class BankingSystemController implements IBankingSystemController {
 		AccountHolder accountHolder1 = new AccountHolder("Jose", localDate1, address1);
 		AccountHolder accountHolder2 = new AccountHolder("Manuela", localDate2, address2);
 		Admin admin = new Admin("admin");
+		ThirdParty thirdParty = new ThirdParty("Pepe", "key");
 		Checking checking1 = new Checking(money1, accountHolder1, "secretKey", Status.ACTIVE);
 		Checking checking2 = new Checking(money2, accountHolder2, "password", Status.FROZEN);
 		CreditCard creditCard1 = new CreditCard(money1, accountHolder1);
@@ -87,6 +88,7 @@ public class BankingSystemController implements IBankingSystemController {
 		accountHolderRepository.save(accountHolder1);
 		accountHolderRepository.save(accountHolder2);
 		adminRepository.save(admin);
+		thirdPartyRepository.save(thirdParty);
 		checkingRepository.save(checking1);
 		checkingRepository.save(checking2);
 		creditCardRepository.save(creditCard1);
@@ -214,7 +216,7 @@ public class BankingSystemController implements IBankingSystemController {
 	 */
 
 
-	//Following methods are for ACCOUNTHOLDER only.
+	//Following methods are for ACCOUNT_HOLDER only.
 
 	@PatchMapping("/withdraw/{userId}/{accountId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -244,5 +246,13 @@ public class BankingSystemController implements IBankingSystemController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void modify(@PathVariable Integer accountId, @RequestBody @Valid BalanceDTO balanceDTO) {
 		bankingSystemService.modify(accountId, balanceDTO.getAmount());
+	}
+
+	//Following methods are for THIRD_PARTY only.
+
+	@PatchMapping("/third-party/{hashedKey}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void thirdParty(@RequestBody @Valid AccountDTO accountDTO, @PathVariable String hashedKey) {
+		bankingSystemService.thirdParty(accountDTO, hashedKey);
 	}
 }

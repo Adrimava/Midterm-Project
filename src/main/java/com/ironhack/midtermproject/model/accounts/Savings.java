@@ -14,7 +14,6 @@ import java.util.Date;
 @Entity
 @PrimaryKeyJoinColumn(name = "accountId")
 public class Savings extends Account{
-	private String secretKey;
 	@Embedded
 	@AttributeOverrides({
 			@AttributeOverride(name = "amount", column = @Column(name = "minimum_balance")),
@@ -47,14 +46,6 @@ public class Savings extends Account{
 	/*
 	**	SETTERS AND GETTERS
 	 */
-
-	public String getSecretKey() {
-		return secretKey;
-	}
-
-	public void setSecretKey(String secretKey) {
-		this.secretKey = secretKey;
-	}
 
 	public Money getMinimumBalance() {
 		return minimumBalance;

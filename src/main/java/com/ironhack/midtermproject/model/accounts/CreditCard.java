@@ -23,6 +23,8 @@ public class CreditCard extends Account {
 	private BigDecimal interestRate;
 	@JsonIgnore
 	private Date lastModificationDate;
+	@JsonIgnore
+	private String secretKey;
 
 	/*
 	**	CONSTRUCTORS
@@ -36,6 +38,7 @@ public class CreditCard extends Account {
 		setCreditLimit(new Money(new BigDecimal("100")));
 		setInterestRate(new BigDecimal("0.2"));
 		setLastModificationDate(super.getCreationDate());
+		setSecretKey("key");
 	}
 
 	/*

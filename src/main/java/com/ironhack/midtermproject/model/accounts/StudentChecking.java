@@ -13,8 +13,6 @@ import java.util.Date;
 @PrimaryKeyJoinColumn(name = "accountId")
 public class StudentChecking extends Account {
 	@NotNull
-	private String secretKey;
-	@NotNull
 	private Status status;
 
 	/*
@@ -34,14 +32,6 @@ public class StudentChecking extends Account {
 	/*
 	**	GETTERS AND SETTERS
 	 */
-
-	public String getSecretKey() {
-		return secretKey;
-	}
-
-	public void setSecretKey(String secretKey) {
-		this.secretKey = secretKey;
-	}
 
 	public Status getStatus() {
 		return status;

@@ -1,6 +1,7 @@
 package com.ironhack.midtermproject.service.impl;
 
 import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.controller.dto.accounts.AccountDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.SavingsDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CheckingDTO;
@@ -328,7 +329,7 @@ public class BankingSystemService implements IBankingSystemService {
 	}
 
 	/*
-	**	MODIFY METHOD
+	**	MODIFY ACCOUNT BALANCE METHODS
 	 */
 
 	/*
@@ -341,6 +342,26 @@ public class BankingSystemService implements IBankingSystemService {
 		if (account.isPresent()) {
 			account.get().getBalance().increaseAmount(amount);
 			accountRepository.save(account.get());
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
+		}
+	}
+
+	/*
+	**	thirdParty method accepts account info and a hashed key. It checks if the account
+	**	exist and if it does it checks the key. Then, the third can modify that amount of money
+	**	in that account.
+	 */
+	public void thirdParty(AccountDTO accountDTO, String hashedKey) {
+		Optional<Account> account = accountRepository.findById(accountDTO.getAccountId());
+
+		if (account.isPresent()) {
+			if (accountDTO.getAccountSecretKey().equals(account.get().getSecretKey())) {
+				account.get().getBalance().increaseAmount(accountDTO.getAmount());
+				accountRepository.save(account.get());
+			} else {
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Key is not correct.");
+			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
 		}

@@ -41,8 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().ignoringAntMatchers("/transaction/**");
 		http.csrf().ignoringAntMatchers("/account-holder/**");
 		http.csrf().ignoringAntMatchers("/admin/**");
-		http.csrf().ignoringAntMatchers("/third-party/**");
 		http.csrf().ignoringAntMatchers("/modify/**");
+		http.csrf().ignoringAntMatchers("/third-party/**");
 		http.authorizeRequests()
 				.mvcMatchers("/checking/**").hasRole("ADMIN")
 				.mvcMatchers("/credit-card/**").hasRole("ADMIN")
@@ -50,11 +50,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("/student-checking/**").hasRole("ADMIN")
 				.mvcMatchers("/account-holder/**").hasRole("ADMIN")
 				.mvcMatchers("/admin/**").hasRole("ADMIN")
-				.mvcMatchers("/third-party/**").hasRole("ADMIN")
 				.mvcMatchers("/modify/**").hasRole("ADMIN")
-				.mvcMatchers("/withdraw/**").hasRole("ACCOUNTHOLDER")
-				.mvcMatchers("/deposit/**").hasRole("ACCOUNTHOLDER")
-				.mvcMatchers("/transaction/**").hasRole("ACCOUNTHOLDER")
+				.mvcMatchers("/third-party/**").hasRole("THIRD_PARTY")
+				.mvcMatchers("/withdraw/**").hasRole("ACCOUNT_HOLDER")
+				.mvcMatchers("/deposit/**").hasRole("ACCOUNT_HOLDER")
+				.mvcMatchers("/transaction/**").hasRole("ACCOUNT_HOLDER")
 				.mvcMatchers("/say-hello").authenticated()
 				.anyRequest().permitAll();
 	}
