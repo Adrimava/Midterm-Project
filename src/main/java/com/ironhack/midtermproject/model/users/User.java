@@ -10,6 +10,7 @@ public abstract class User {
 	protected Integer userId;
 	protected String name;
 	protected String role;
+	protected String password;
 
 	/*
 	**	CONSTRUCTORS
@@ -20,6 +21,7 @@ public abstract class User {
 
 	public User(String name) {
 		this.name = name;
+		this.password = "$2a$10$h9oQ5PN65O53R1btkIJu7OWPsWIvfeoZd0RaUfGOTaQJZDl306XSG";
 	}
 
 	/*
@@ -48,5 +50,13 @@ public abstract class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
