@@ -1,14 +1,19 @@
 package com.ironhack.midtermproject.service.impl;
 
 import com.ironhack.midtermproject.Money;
-import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
-import com.ironhack.midtermproject.controller.dto.SavingsDTO;
-import com.ironhack.midtermproject.controller.dto.CheckingDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.CreditCardDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.SavingsDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.CheckingDTO;
+import com.ironhack.midtermproject.controller.dto.users.AccountHolderDTO;
+import com.ironhack.midtermproject.controller.dto.users.AdminDTO;
+import com.ironhack.midtermproject.controller.dto.users.ThirdPartyDTO;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.*;
 import com.ironhack.midtermproject.model.other.Transaction;
 import com.ironhack.midtermproject.model.users.AccountHolder;
+import com.ironhack.midtermproject.model.users.Admin;
+import com.ironhack.midtermproject.model.users.ThirdParty;
 import com.ironhack.midtermproject.model.users.User;
 import com.ironhack.midtermproject.repository.accounts.*;
 import com.ironhack.midtermproject.repository.other.TransactionRepository;
@@ -218,6 +223,23 @@ public class BankingSystemService implements IBankingSystemService {
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 		}
+	}
+
+	public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO, Optional<String> email) {
+		AccountHolder accountHolder = new AccountHolder(accountHolderDTO.getName(),
+				accountHolderDTO.getBirthdate(), accountHolderDTO.getAddress());
+		if (email.isPresent()) {
+			accountHolder.setEmail(email.get());
+		}
+		return accountHolderRepository.save(accountHolder);
+	}
+
+	public Admin createAdmin(AdminDTO adminDTO) {
+		return adminRepository.save(new Admin(adminDTO.getName()));
+	}
+
+	public ThirdParty createThirdParty(ThirdPartyDTO thirdPartyDTO) {
+		return thirdPartyRepository.save(new ThirdParty(thirdPartyDTO.getName(), thirdPartyDTO.getHashedKey()));
 	}
 
 	/*

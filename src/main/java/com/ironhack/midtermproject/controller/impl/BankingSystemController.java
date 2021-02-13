@@ -1,7 +1,10 @@
 package com.ironhack.midtermproject.controller.impl;
 
 import com.ironhack.midtermproject.Money;
-import com.ironhack.midtermproject.controller.dto.*;
+import com.ironhack.midtermproject.controller.dto.accounts.*;
+import com.ironhack.midtermproject.controller.dto.users.AccountHolderDTO;
+import com.ironhack.midtermproject.controller.dto.users.AdminDTO;
+import com.ironhack.midtermproject.controller.dto.users.ThirdPartyDTO;
 import com.ironhack.midtermproject.controller.interfaces.IBankingSystemController;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
@@ -11,6 +14,7 @@ import com.ironhack.midtermproject.model.accounts.StudentChecking;
 import com.ironhack.midtermproject.model.other.Address;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 import com.ironhack.midtermproject.model.users.Admin;
+import com.ironhack.midtermproject.model.users.ThirdParty;
 import com.ironhack.midtermproject.repository.accounts.CheckingRepository;
 import com.ironhack.midtermproject.repository.accounts.CreditCardRepository;
 import com.ironhack.midtermproject.repository.accounts.SavingsRepository;
@@ -82,6 +86,7 @@ public class BankingSystemController implements IBankingSystemController {
 
 		accountHolderRepository.save(accountHolder1);
 		accountHolderRepository.save(accountHolder2);
+		adminRepository.save(admin);
 		checkingRepository.save(checking1);
 		checkingRepository.save(checking2);
 		creditCardRepository.save(creditCard1);
@@ -183,6 +188,25 @@ public class BankingSystemController implements IBankingSystemController {
 								 @RequestParam(defaultValue = "1000") BigDecimal minimumBalance,
 								 @RequestParam(defaultValue = "0.0025") BigDecimal interestRate) {
 		return bankingSystemService.createSavings(savingsDTO, minimumBalance, interestRate, secondaryOwner);
+	}
+
+	@PostMapping("/account-holder")
+	@ResponseStatus(HttpStatus.CREATED)
+	public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO,
+											 @RequestParam Optional<String> email) {
+		return bankingSystemService.createAccountHolder(accountHolderDTO, email);
+	}
+
+	@PostMapping("/admin")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Admin createAdmin(AdminDTO adminDTO) {
+		return bankingSystemService.createAdmin(adminDTO);
+	}
+
+	@PostMapping("/third-party")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ThirdParty createThirdParty(ThirdPartyDTO thirdPartyDTO) {
+		return bankingSystemService.createThirdParty(thirdPartyDTO);
 	}
 
 	/*

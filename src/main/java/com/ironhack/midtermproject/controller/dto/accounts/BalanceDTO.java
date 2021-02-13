@@ -1,18 +1,17 @@
-package com.ironhack.midtermproject.controller.dto;
+package com.ironhack.midtermproject.controller.dto.accounts;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class AmountDTO {
+public class BalanceDTO {
 	@NotNull
-	@DecimalMin(value = "0.0", message = "Amount must be positive.")
 	private BigDecimal amount;
 
-	public AmountDTO() {
+	public BalanceDTO() {
 	}
 
-	public AmountDTO(BigDecimal amount) {
+	public BalanceDTO(BigDecimal amount) {
 		this.amount = amount;
 	}
 

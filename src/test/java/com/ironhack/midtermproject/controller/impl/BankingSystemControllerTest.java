@@ -2,10 +2,10 @@ package com.ironhack.midtermproject.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ironhack.midtermproject.Money;
-import com.ironhack.midtermproject.controller.dto.AmountDTO;
-import com.ironhack.midtermproject.controller.dto.CheckingDTO;
-import com.ironhack.midtermproject.controller.dto.CreditCardDTO;
-import com.ironhack.midtermproject.controller.dto.SavingsDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.AmountDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.CheckingDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.CreditCardDTO;
+import com.ironhack.midtermproject.controller.dto.accounts.SavingsDTO;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
@@ -35,7 +35,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

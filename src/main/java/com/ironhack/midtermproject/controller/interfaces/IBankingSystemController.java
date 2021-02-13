@@ -1,14 +1,17 @@
 package com.ironhack.midtermproject.controller.interfaces;
 
-import com.ironhack.midtermproject.controller.dto.*;
+import com.ironhack.midtermproject.controller.dto.accounts.*;
+import com.ironhack.midtermproject.controller.dto.users.AccountHolderDTO;
+import com.ironhack.midtermproject.controller.dto.users.AdminDTO;
+import com.ironhack.midtermproject.controller.dto.users.ThirdPartyDTO;
 import com.ironhack.midtermproject.model.accounts.Checking;
 import com.ironhack.midtermproject.model.accounts.CreditCard;
 import com.ironhack.midtermproject.model.accounts.Savings;
 import com.ironhack.midtermproject.model.accounts.StudentChecking;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.ironhack.midtermproject.model.users.AccountHolder;
+import com.ironhack.midtermproject.model.users.Admin;
+import com.ironhack.midtermproject.model.users.ThirdParty;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,9 @@ public interface IBankingSystemController {
 								BigDecimal creditLimit, BigDecimal interestRate);
 	Savings createSavings(SavingsDTO creditCardDTO, Optional<Integer> secondaryOwner,
 						  BigDecimal minimumBalance, BigDecimal interestRate);
+	AccountHolder createAccountHolder (AccountHolderDTO accountHolderDTO, Optional<String> email);
+	Admin createAdmin (AdminDTO adminDTO);
+	ThirdParty createThirdParty (ThirdPartyDTO thirdPartyDTO);
 
 	void withdraw(Integer userId, Integer accountId, AmountDTO amountDTO);
 	void deposit(Integer userId, Integer accountId, AmountDTO amountDTO);

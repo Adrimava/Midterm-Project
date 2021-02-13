@@ -1,4 +1,4 @@
-package com.ironhack.midtermproject.controller.dto;
+package com.ironhack.midtermproject.controller.dto.accounts;
 
 import com.ironhack.midtermproject.Money;
 
