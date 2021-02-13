@@ -1,7 +1,6 @@
 package com.ironhack.midtermproject.model.other;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ironhack.midtermproject.Money;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

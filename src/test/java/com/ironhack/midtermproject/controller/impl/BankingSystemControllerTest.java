@@ -1,7 +1,7 @@
 package com.ironhack.midtermproject.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.model.other.Money;
 import com.ironhack.midtermproject.controller.dto.accounts.AmountDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CheckingDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CreditCardDTO;

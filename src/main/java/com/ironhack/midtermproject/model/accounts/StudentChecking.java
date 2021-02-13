@@ -1,13 +1,12 @@
 package com.ironhack.midtermproject.model.accounts;
 
-import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.model.other.Money;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.enums.Status;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "accountId")

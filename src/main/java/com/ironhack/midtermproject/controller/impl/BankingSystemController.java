@@ -1,6 +1,6 @@
 package com.ironhack.midtermproject.controller.impl;
 
-import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.model.other.Money;
 import com.ironhack.midtermproject.controller.dto.accounts.*;
 import com.ironhack.midtermproject.controller.dto.users.AccountHolderDTO;
 import com.ironhack.midtermproject.controller.dto.users.AdminDTO;

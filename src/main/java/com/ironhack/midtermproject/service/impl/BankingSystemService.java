@@ -1,6 +1,6 @@
 package com.ironhack.midtermproject.service.impl;
 
-import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.model.other.Money;
 import com.ironhack.midtermproject.controller.dto.accounts.AccountDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.CreditCardDTO;
 import com.ironhack.midtermproject.controller.dto.accounts.SavingsDTO;

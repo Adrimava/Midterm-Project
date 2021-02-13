@@ -1,7 +1,5 @@
 package com.ironhack.midtermproject.controller.dto.accounts;
 
-import com.ironhack.midtermproject.Money;
-
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 

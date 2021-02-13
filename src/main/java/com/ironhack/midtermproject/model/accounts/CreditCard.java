@@ -1,7 +1,7 @@
 package com.ironhack.midtermproject.model.accounts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ironhack.midtermproject.Money;
+import com.ironhack.midtermproject.model.other.Money;
 import com.ironhack.midtermproject.enums.AccountType;
 import com.ironhack.midtermproject.model.users.AccountHolder;
 
