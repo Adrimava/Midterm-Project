@@ -55,7 +55,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("/withdraw/**").hasRole("ACCOUNT_HOLDER")
 				.mvcMatchers("/deposit/**").hasRole("ACCOUNT_HOLDER")
 				.mvcMatchers("/transaction/**").hasRole("ACCOUNT_HOLDER")
-				.mvcMatchers("/say-hello").authenticated()
 				.anyRequest().permitAll();
 	}
 }

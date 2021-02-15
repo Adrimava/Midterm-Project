@@ -56,58 +56,6 @@ public class BankingSystemController implements IBankingSystemController {
 	@Autowired
 	private IBankingSystemService bankingSystemService;
 
-
-	/////////////////////////////////	JUST FOR TESTING PURPOSES	////////////////////////////////////////////
-	@GetMapping("/init")
-	public void init() throws ParseException {
-		Money money1 = new Money(new BigDecimal("5555"));
-		Money money2 = new Money(new BigDecimal("7777"));
-		Address address1 = new Address("Gran Via", 90);
-		Address address2 = new Address("Palencia", 10);
-		LocalDate localDate1 = LocalDate.of(1950, 10, 10);
-		LocalDate localDate2 = LocalDate.of(2000, 5, 5);
-		AccountHolder accountHolder1 = new AccountHolder("Jose", localDate1, address1);
-		AccountHolder accountHolder2 = new AccountHolder("Manuela", localDate2, address2);
-		Admin admin = new Admin("admin");
-		ThirdParty thirdParty = new ThirdParty("Pepe", "key");
-		Checking checking1 = new Checking(money1, accountHolder1, "secretKey", Status.ACTIVE);
-		Checking checking2 = new Checking(money2, accountHolder2, "password", Status.FROZEN);
-		CreditCard creditCard1 = new CreditCard(money1, accountHolder1);
-		CreditCard creditCard2 = new CreditCard(money2, accountHolder2);
-		Savings savings1 = new Savings(money1, accountHolder1, "SavingsKey", Status.ACTIVE);
-		Savings savings2 = new Savings(money2, accountHolder2, "SavingsPassword", Status.FROZEN);
-		StudentChecking studentChecking1 = new StudentChecking(money1, accountHolder1, "StudentKey", Status.FROZEN);
-		StudentChecking studentChecking2 = new StudentChecking(money2, accountHolder2, "StudentPassword", Status.ACTIVE);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		Date date1 = sdf.parse("10-10-2019");
-		savings1.setLastModificationDate(date1);
-		creditCard1.setLastModificationDate(date1);
-		BigDecimal amount = new BigDecimal("100");
-
-
-		accountHolderRepository.save(accountHolder1);
-		accountHolderRepository.save(accountHolder2);
-		adminRepository.save(admin);
-		thirdPartyRepository.save(thirdParty);
-		checkingRepository.save(checking1);
-		checkingRepository.save(checking2);
-		creditCardRepository.save(creditCard1);
-		creditCardRepository.save(creditCard2);
-		savingsRepository.save(savings1);
-		savingsRepository.save(savings2);
-		studentCheckingRepository.save(studentChecking1);
-		studentCheckingRepository.save(studentChecking2);
-
-
-		bankingSystemService.withdraw(1, 1, amount);
-//		bankingSystemService.withdraw(1, 1, amount);
-//		bankingSystemService.withdraw(1, 1, amount);
-//		bankingSystemService.withdraw(1, 1, amount);
-//		bankingSystemService.withdraw(1, 1, amount);
-//		bankingSystemService.withdraw(1, 1, amount);
-		bankingSystemService.withdraw(2, 2, amount);
-	}
-
 	/*
 	**	GET MAPPINGS. For ADMIN only.
 	 */
